@@ -1,5 +1,5 @@
 ;;;; dired-filetype-face.el  --- faces for different filetype in dired buffer.
-;;;  Time-stamp: <Joseph 2011-04-04 14:18:01>
+;;;  Time-stamp: <Joseph 2011-04-04 15:52:49>
 
 ;; Filename: dired-filetype-face.el
 ;; Description: set faces for different file type in dired buffer.
@@ -282,7 +282,7 @@
            (0 'dired-filetype-lnk)))))
   )
 ;;;###autoload
-(defun dired-mode-hook()
+(defun dired-mode-hook-func()
   "this function will be added to `dired-mode-hook'"
   (dired-filetype-set-document-face)
   (dired-filetype-set-plain-face)
@@ -300,7 +300,7 @@
   (dired-filetype-set-lnk-face)
   )
 
-(add-hook 'dired-mode-hook 'dired-mode-hook)
+(add-hook 'dired-mode-hook 'dired-mode-hook-func)
 
 (provide 'dired-filetype-face)
 
