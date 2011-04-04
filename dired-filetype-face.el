@@ -1,5 +1,5 @@
 ;;;; dired-filetype-face.el  --- faces for different filetype in dired buffer.
-;;;  Time-stamp: <Joseph 2011-04-04 15:48:04>
+;;;  Time-stamp: <Joseph 2011-04-04 15:58:25>
 
 ;; Filename: dired-filetype-face.el
 ;; Description: set faces for different file type in dired buffer.
@@ -416,6 +416,7 @@
   )
 
 (add-hook 'dired-mode-hook 'dired-filetype-face-mode-func)
+
 (provide 'dired-filetype-face)
 
 ;;; `dired-filetype-face.el'ends here.
