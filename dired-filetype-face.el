@@ -1,5 +1,5 @@
 ;;;; dired-filetype-face.el  --- faces for different filetype in dired buffer.
-;;;  Time-stamp: <Joseph 2011-04-04 15:58:25>
+;;;  Time-stamp: <Joseph 2011-04-05 00:13:34>
 
 ;; Filename: dired-filetype-face.el
 ;; Description: set faces for different file type in dired buffer.
@@ -271,7 +271,7 @@
 (defun dired-filetype-set-document-face ()
   "dired-filetype-face for rich documents:"
   (font-lock-add-keywords
-   nil '((dired-filetype-document-regexp
+   nil `((,dired-filetype-document-regexp
           (".+"
            (dired-move-to-filename)
            nil
@@ -281,7 +281,7 @@
 (defun dired-filetype-set-plain-face ()
   "dired-filetype-face for plain text:"
   (font-lock-add-keywords
-   nil '((dired-filetype-plain-regexp
+   nil `((,dired-filetype-plain-regexp
           (".+"
            (dired-move-to-filename)
            nil
@@ -291,7 +291,7 @@
 (defun dired-filetype-set-common-face ()
   "dired-filetype-face for common files :"
   (font-lock-add-keywords
-   nil '((dired-filetype-common-regexp
+   nil `((,dired-filetype-common-regexp
           (".+"
            (dired-move-to-filename)
            nil
@@ -300,7 +300,7 @@
 (defun dired-filetype-set-xml-face ()
   "dired-filetype-face for xml:"
   (font-lock-add-keywords
-   nil '((dired-filetype-xml-regexp
+   nil `((,dired-filetype-xml-regexp
           (".+"
            (dired-move-to-filename)
            nil
@@ -309,7 +309,7 @@
 (defun dired-filetype-set-compress-face ()
   "dired-filetype-face for compressed files:"
   (font-lock-add-keywords
-   nil '((dired-filetype-compress-regexp
+   nil `((,dired-filetype-compress-regexp
           (".+"
            (dired-move-to-filename)
            nil
@@ -318,7 +318,7 @@
 (defun dired-filetype-set-source-face ()
   "dired-filetype-face for source code files :"
   (font-lock-add-keywords
-   nil '((dired-filetype-source-regexp
+   nil `((,dired-filetype-source-regexp
           (".+"
            (dired-move-to-filename)
            nil
@@ -327,7 +327,7 @@
 (defun dired-filetype-set-omit-face ()
   "dired-filetype-face for files can be omitted:"
   (font-lock-add-keywords
-   nil '((dired-filetype-omit1-regexp
+   nil `((,dired-filetype-omit1-regexp
           (".+"
            (dired-move-to-filename)
            nil
@@ -336,7 +336,7 @@
 (defun dired-filetype-set-omit2-face ()
   "dired-filetype-face for backup and cache files:"
   (font-lock-add-keywords
-   nil '(( dired-filetype-omit2-regexp
+   nil `(( ,dired-filetype-omit2-regexp
            (".+"
             (dired-move-to-filename)
             nil
@@ -345,7 +345,7 @@
 (defun dired-filetype-set-omit3-face ()
   "dired-filetype-face for hidden files:"
   (font-lock-add-keywords
-   nil '(( dired-filetype-omit3-regexp
+   nil `(( ,dired-filetype-omit3-regexp
            (".+"
             (dired-move-to-filename)
             nil
@@ -354,7 +354,7 @@
 (defun dired-filetype-set-exe-face ()
   "dired-filetype-face for executable files:"
   (font-lock-add-keywords
-   nil '((dired-filetype-execute-regexp
+   nil `((,dired-filetype-execute-regexp
           (".+"
            (dired-move-to-filename)
            nil
@@ -363,7 +363,7 @@
 (defun dired-filetype-set-music-face ()
   "dired-filetype-faces for audio files:"
   (font-lock-add-keywords
-   nil '((dired-filetype-music-regexp
+   nil `((,dired-filetype-music-regexp
           (".+"
            (dired-move-to-filename)
            nil
@@ -372,7 +372,7 @@
 (defun dired-filetype-set-video-face ()
   "dired-filetype-face for video files"
   (font-lock-add-keywords
-   nil '((dired-filetype-video-regexp
+   nil `((,dired-filetype-video-regexp
           (".+"
            (dired-move-to-filename)
            nil
@@ -381,7 +381,7 @@
 (defun dired-filetype-set-image-face ()
   "dired-filetype-face for images."
   (font-lock-add-keywords
-   nil '((dired-filetype-image-regexp
+   nil `((,dired-filetype-image-regexp
           (".+"
            (dired-move-to-filename)
            nil
@@ -390,7 +390,7 @@
 (defun dired-filetype-set-lnk-face ()
   "dired-filetype-face for lnk files"
   (font-lock-add-keywords
-   nil '((dired-filetype-lnk-regexp
+   nil `((,dired-filetype-lnk-regexp
            (".+"
             (dired-move-to-filename)
             nil
