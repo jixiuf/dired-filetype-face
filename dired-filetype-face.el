@@ -1,5 +1,6 @@
-;;;; dired-filetype-face.el  --- set different faces for different filetype in dired buffer.
-;;;  Time-stamp: <Joseph 2011-05-23 12:42:36>
+;;; dired-filetype-face.el  --- set different faces for different filetype in dired buffer.
+;;;  Time-stamp: <Joseph 2011-06-04 23:33:56 星期六>
+
 ;; Filename: dired-filetype-face.el
 ;; Description: set faces for different file type in dired buffer.
 ;; Author: Joseph <jixiuf@gmail.com>
@@ -425,7 +426,10 @@
   "set different faces for different file type."
   (dired-filetype-face-mode-func)
 )
-
+(defadvice  wdired-finish-edit (after dired-filetype-face activate)
+  "set different faces for different file type."
+  (dired-filetype-face-mode-func)
+  )
 (provide 'dired-filetype-face)
 
 ;;; `dired-filetype-face.el'ends here.
