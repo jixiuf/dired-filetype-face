@@ -1,5 +1,5 @@
 ;;; dired-filetype-face.el  --- set different faces for different filetype in dired buffer.
-;;;  Time-stamp: <Joseph 2011-09-26 14:46:41 星期一>
+;;;  Time-stamp: <Joseph 2011-09-27 11:36:01 星期二>
 
 ;; Filename: dired-filetype-face.el
 ;; Description: set faces for different file type in dired buffer.
@@ -88,13 +88,13 @@
 ;;    default = "^  .*\\(configure\\|INSTALL\\|README\\|readme\\|COPYING\\|CHANGES\\|LICENSE\\|ChangeLog\\|Makefile.in\\|MANIFEST.MF\\|NOTICE.txt\\|build.xml\\|Manifest\\|metadata.xml\\|install-sh\\|NEWS\\|HACKING\\|AUTHORS\\|todo\\|Todo\\|TODO\\|makefile\\)$"
 ;;  `dired-filetype-xml-regexp'
 ;;    regexp to match xml filetype
-;;    default = "^  .*\\.\\(html?\\|HTML?\\|xml\\|XML\\|xsl\\|xsd\\|rng\\|dtd\\|mht\\|jsp\\|asp\\|js\\)$"
+;;    default = "^  .*\\.\\(html?\\|HTML?\\|xml\\|XML\\|xsl\\|xsd\\|rng\\|dtd\\|mht\\|jsp\\|asp\\|js\\|xaml\\)$"
 ;;  `dired-filetype-compress-regexp'
 ;;    regexp to match compressed filetypes
 ;;    default = "^  .*\\.\\(tar\\|zip\\|ZIP\\|rar\\|RAR\\|tgz\\|gz\\|bzip2\\|bz2\\|7z\\|7Z\\|Z\\|z\\|xz\\|XZ\\|rpm\\|deb\\|lzma\\|cab\\|gzip\\|taz\\|wim\\|iso\\|tbz2\\|xar\\|XAR\\|jar\\|war\\|img\\)$"
 ;;  `dired-filetype-source-regexp'
 ;;    regexp to match source code filetypes
-;;    default = "^  .*\\.\\(c\\|cpp\\|java\\|JAVA\\|C\\|php\\|h\\|rb\\|pl\\|css\\|el\\|lua\\|sql\\)$"
+;;    default = "^  .*\\.\\(c\\|cpp\\|java\\|JAVA\\|C\\|php\\|h\\|rb\\|pl\\|css\\|el\\|lua\\|sql\\|ahk\\|cs\\)$"
 ;;  `dired-filetype-execute-regexp'
 ;;    regexp to match executable filetypes
 ;;    default = "^  .*\\.\\(exe\\|EXE\\|bat\\|BAT\\|msi\\|MSI\\|\\|sh\\|run\\|reg\\|REG\\|com\\|COM\\|\\|vbx\\|VBX\\|bin\\|xpi\\|bundle\\)$"
@@ -183,7 +183,7 @@
   :group 'dired-filetype-face)
 
 (defcustom dired-filetype-xml-regexp
-  "^  .*\\.\\(html?\\|HTML?\\|xml\\|XML\\|xsl\\|xsd\\|rng\\|dtd\\|mht\\|jsp\\|asp\\|js\\)$"
+  "^  .*\\.\\(html?\\|HTML?\\|xml\\|XML\\|xsl\\|xsd\\|rng\\|dtd\\|mht\\|jsp\\|asp\\|js\\|xaml\\)$"
   "regexp to match xml filetype"
   :type 'string
   :group 'dired-filetype-face)
@@ -206,7 +206,7 @@
   :group 'dired-filetype-face)
 
 (defcustom dired-filetype-source-regexp
-  "^  .*\\.\\(c\\|cpp\\|java\\|JAVA\\|C\\|php\\|h\\|rb\\|pl\\|css\\|el\\|lua\\|sql\\)$"
+  "^  .*\\.\\(c\\|cpp\\|java\\|JAVA\\|C\\|php\\|h\\|rb\\|pl\\|css\\|el\\|lua\\|sql\\|ahk\\|cs\\)$"
   "regexp to match source code filetypes"
   :type 'string
   :group 'dired-filetype-face)
