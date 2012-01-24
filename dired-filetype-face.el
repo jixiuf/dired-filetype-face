@@ -156,7 +156,7 @@
   :group 'dired-filetype-face)
 
 (defface   dired-filetype-plain
-  '((t (:foreground "LightSalmon")))
+  '((t (:foreground "MediumPurple")))
   "face for plain text files "
   :group 'dired-filetype-face)
 
