@@ -2,7 +2,7 @@
 
 ;; Copyright (C) 2011~2012, 纪秀峰(Joseph) all rights reserved.
 ;; Created: 2011-04-04
-;; Last Update: Joseph 2012-01-24 14:51:44 星期二
+;; Last Update: Joseph 2012-01-24 15:05:34 星期二
 ;; Description: set faces for different file type in dired buffer.
 ;; Author: 纪秀峰(Joseph) <jixiuf@gmail.com>
 ;; Version: 0.2.2
@@ -100,7 +100,7 @@
 ;;    default = "^  .*\\.\\(mp3\\|MP3\\|wma\\|WMA\\|wav\\|WAV\\|mid\\|MID\\)$"
 ;;  `dired-filetype-video-regexp'
 ;;    regexp to match video filetypes
-;;    default = "^  .*\\.\\(flv\\|avi\\|AVI\\|mkv\\|rmvb\\|RMVB\\|mpeg\\|mpg\\|MPG\\|rm\\|RM\\|mp4\\|wmv\\|m4v\\|mov\\|ogg\\|ogv\\|3gp\\|f4v\\|swf\\)$"
+;;    default = "^  .*\\.\\(flv\\|avi\\|AVI\\|mkv\\|rmvb\\|RMVB\\|mpeg\\|mpg\\|MPG\\|rm\\|RM\\|mp4\\|wmv\\|WMV\\|m4v\\|mov\\|ogg\\|ogv\\|3gp\\|f4v\\|swf\\)$"
 ;;  `dired-filetype-image-regexp'
 ;;    regexp to match images filetypes
 ;;    default = "^  .*\\.\\(gif\\|GIF\\|jpg\\|JPG\\|bmp\\|BMP\\|jpeg?\\|JPEG?\\|png\\|PNG\\|xpm\\|svg\\)$"
@@ -237,7 +237,7 @@
   :group 'dired-filetype-face)
 
 (defcustom dired-filetype-video-regexp
-  "^  .*\\.\\(flv\\|avi\\|AVI\\|mkv\\|rmvb\\|RMVB\\|mpeg\\|mpg\\|MPG\\|rm\\|RM\\|mp4\\|wmv\\|m4v\\|mov\\|ogg\\|ogv\\|3gp\\|f4v\\|swf\\)$"
+  "^  .*\\.\\(flv\\|avi\\|AVI\\|mkv\\|rmvb\\|RMVB\\|mpeg\\|mpg\\|MPG\\|rm\\|RM\\|mp4\\|wmv\\|WMV\\|m4v\\|mov\\|ogg\\|ogv\\|3gp\\|f4v\\|swf\\)$"
   "regexp to match video filetypes"
   :type 'string
   :group 'dired-filetype-face)
