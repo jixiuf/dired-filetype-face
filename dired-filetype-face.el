@@ -2,8 +2,7 @@
 
 ;; Copyright (C) 2011~2012, 纪秀峰(Joseph) all rights reserved.
 ;; Created: 2011-04-04
-;; Last Update: Joseph 2012-01-24 14:47:17 星期二
-;; Filename: dired-filetype-face.el
+;; Last Update: Joseph 2012-01-24 14:51:44 星期二
 ;; Description: set faces for different file type in dired buffer.
 ;; Author: 纪秀峰(Joseph) <jixiuf@gmail.com>
 ;; Version: 0.2.2
@@ -15,7 +14,7 @@
 ;;
 ;; `dired' `custom'
 ;;
-;;; This file is NOT part of GNU Emacs
+;; This file is NOT part of GNU Emacs
 
 ;;; License
 ;;
