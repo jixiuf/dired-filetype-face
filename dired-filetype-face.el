@@ -2,7 +2,7 @@
 
 ;; Copyright (C) 2011~2012, 纪秀峰(Joseph) all rights reserved.
 ;; Created: 2011-04-04
-;; Last Update: Joseph 2012-01-24 15:05:34 星期二
+;; Last Update: 纪秀峰 2012-12-02 18:58:02 星期日
 ;; Description: set faces for different file type in dired buffer.
 ;; Author: 纪秀峰(Joseph) <jixiuf@gmail.com>
 ;; Version: 0.2.2
@@ -413,7 +413,9 @@
   (dired-filetype-set-lnk-face)
   )
 
+;;;###autoload(add-hook 'dired-mode-hook 'dired-filetype-face-mode-func)
 (add-hook 'dired-mode-hook 'dired-filetype-face-mode-func)
+;;;###autoload(add-hook 'wdired-mode-hook 'dired-filetype-face-mode-func)
 (add-hook 'wdired-mode-hook 'dired-filetype-face-mode-func)
 
 (defadvice  dired-toggle-read-only (after  dired-filetype-face activate)
