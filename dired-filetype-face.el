@@ -418,18 +418,22 @@
 ;;;###autoload(add-hook 'wdired-mode-hook 'dired-filetype-face-mode-func)
 (add-hook 'wdired-mode-hook 'dired-filetype-face-mode-func)
 
-(defadvice  dired-toggle-read-only (after  dired-filetype-face activate)
+(defadvice dired-toggle-read-only (after  dired-filetype-face activate)
   "set different faces for different file type."
-  (dired-filetype-face-mode-func)
- )
-(defadvice  wdired-exit (after dired-filetype-face activate)
+  (dired-filetype-face-mode-func))
+
+(defadvice wdired-exit (after dired-filetype-face activate)
   "set different faces for different file type."
-  (dired-filetype-face-mode-func)
-)
-(defadvice  wdired-finish-edit (after dired-filetype-face activate)
+  (dired-filetype-face-mode-func))
+
+(defadvice wdired-finish-edit (after dired-filetype-face activate)
   "set different faces for different file type."
-  (dired-filetype-face-mode-func)
-  )
+  (dired-filetype-face-mode-func))
+
+(defadvice wdired-abort-changes (after dired-filetype-face activate)
+  "set different faces for different file type."
+  (dired-filetype-face-mode-func))
+
 (provide 'dired-filetype-face)
 
 ;;; `dired-filetype-face.el'ends here.
