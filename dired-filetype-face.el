@@ -2,7 +2,7 @@
 
 ;; Copyright (C) 2011~2012, 纪秀峰(Joseph) all rights reserved.
 ;; Created: 2011-04-04
-;; Last Update: 纪秀峰 2012-12-02 18:58:02 星期日
+;; Last Update: 纪秀峰 2014-11-06 19:58:48
 ;; Description: set faces for different file type in dired buffer.
 ;; Author: 纪秀峰(Joseph) <jixiuf@gmail.com>
 ;; Version: 0.2.2
@@ -203,7 +203,7 @@
   :group 'dired-filetype-face)
 
 (defcustom dired-filetype-source-regexp
-  "^  .*\\.\\(c\\|cpp\\|java\\|JAVA\\|C\\|php\\|h\\|rb\\|pl\\|css\\|el\\|lua\\|sql\\|ahk\\|cs\\|erl\\|hrl\\)$"
+  "^  .*\\.\\(c\\|cpp\\|java\\|JAVA\\|C\\|php\\|h\\|rb\\|pl\\|css\\|el\\|lua\\|sql\\|ahk\\|cs\\|erl\\|hrl\\|go\\)$"
   "regexp to match source code filetypes"
   :type 'string
   :group 'dired-filetype-face)
