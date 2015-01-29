@@ -70,7 +70,7 @@
 ;;    default = "^  .*\\.\\(elc\\|class\\|so\\|ko\\|la\\|o\\|al\\|ix\\|db\\|td\\|\\|dat\\|dll\\|Dll\\|DLL\\|sav\\|rdp\\|sys\\|SYS\\|prf\\|tlb\\|cat\\|bak\\)$"
 ;;  `dired-filetype-omit2-regexp'
 ;;    regexp to match backup or cache filetypes.
-;;    default = "^  .*\\(\\.git\\|\\.svn\\|~\\|#\\|%\\|\\.tmp\\|$DATA\\|:encryptable\\|\\.db_encryptable\\)$"
+;;    default = "^  .*\\(\\.git\\|\\.svn\\|~\\|#\\|%\\|\\.tmp\\|\\$DATA\\|:encryptable\\|\\.db_encryptable\\)$"
 ;;  `dired-filetype-omit3-regexp'
 ;;    regexp to match hidden files
 ;;    default = " \\.\\(.*$\\)"
@@ -130,7 +130,7 @@
   :group 'dired-filetype-face)
 
 (defcustom dired-filetype-omit2-regexp
-  "^  .*\\(\\.git\\|\\.svn\\|~\\|#\\|%\\|\\.tmp\\|$DATA\\|:encryptable\\|\\.db_encryptable\\)$"
+  "^  .*\\(\\.git\\|\\.svn\\|~\\|#\\|%\\|\\.tmp\\|\\$DATA\\|:encryptable\\|\\.db_encryptable\\)$"
   "regexp to match backup or cache filetypes."
   :type 'string
   :group 'dired-filetype-face)
