@@ -97,13 +97,13 @@
 ;;    default = "^  .*\\.\\(exe\\|EXE\\|bat\\|BAT\\|msi\\|MSI\\|\\|sh\\|run\\|reg\\|REG\\|com\\|COM\\|\\|vbx\\|VBX\\|bin\\|xpi\\|bundle\\)$"
 ;;  `dired-filetype-music-regexp'
 ;;    regexp to match music files
-;;    default = "^  .*\\.\\(mp3\\|MP3\\|wma\\|WMA\\|wav\\|WAV\\|mid\\|MID\\)$"
+;;    default = "^  .*\\.\\(mp3\\|MP3\\|wma\\|WMA\\|wav\\|WAV\\|mid\\|MID\\|ogg\\|OGG\\|aac\\|AAC\\|flac\\|FLAC\\|m4a\\|M4A\\)$"
 ;;  `dired-filetype-video-regexp'
 ;;    regexp to match video filetypes
-;;    default = "^  .*\\.\\(flv\\|avi\\|AVI\\|mkv\\|rmvb\\|RMVB\\|mpeg\\|mpg\\|MPG\\|rm\\|RM\\|mp4\\|wmv\\|WMV\\|m4v\\|mov\\|ogg\\|ogv\\|3gp\\|f4v\\|swf\\)$"
+;;    default = "^  .*\\.\\(flv\\|FLV\\|avi\\|AVI\\|mkv\\|rmvb\\|RMVB\\|mpeg\\|mpg\\|MPG\\|rm\\|RM\\|mp4\\|wmv\\|WMV\\|m4v\\|mov\\|ogm\\|ogv\\|3gp\\|f4v\\|swf\\|webm\\|divx\\|xvid\\|rm\\)$"
 ;;  `dired-filetype-image-regexp'
 ;;    regexp to match images filetypes
-;;    default = "^  .*\\.\\(gif\\|GIF\\|jpg\\|JPG\\|bmp\\|BMP\\|jpeg?\\|JPEG?\\|png\\|PNG\\|xpm\\|svg\\)$"
+;;    default = "^  .*\\.\\(gif\\|GIF\\|jpg\\|JPG\\|bmp\\|BMP\\|jpeg?\\|JPEG?\\|png\\|PNG\\|xpm\\|svg\\|icns\\|odg\\|tiff?\\|epsf?\\|icon?\\|pict?\\|tga\\|pcx\\|xbm\\)$"
 ;;  `dired-filetype-lnk-regexp'
 ;;    regexp to match lnk filetypes
 ;;    default = "^  .*\\.\\(lnk\\|LNK\\|desktop\\|torrent\\|url\\|URL\\)$"
@@ -226,7 +226,7 @@
   :group 'dired-filetype-face)
 
 (defcustom dired-filetype-music-regexp
-  "^  .*\\.\\(mp3\\|MP3\\|wma\\|WMA\\|wav\\|WAV\\|mid\\|MID\\)$"
+  "^  .*\\.\\(mp3\\|MP3\\|wma\\|WMA\\|wav\\|WAV\\|mid\\|MID\\|ogg\\|OGG\\|aac\\|AAC\\|flac\\|FLAC\\|m4a\\|M4A\\)$"
   "regexp to match music files"
   :type 'string
   :group 'dired-filetype-face)
@@ -237,7 +237,7 @@
   :group 'dired-filetype-face)
 
 (defcustom dired-filetype-video-regexp
-  "^  .*\\.\\(flv\\|avi\\|AVI\\|mkv\\|rmvb\\|RMVB\\|mpeg\\|mpg\\|MPG\\|rm\\|RM\\|mp4\\|wmv\\|WMV\\|m4v\\|mov\\|ogg\\|ogv\\|3gp\\|f4v\\|swf\\)$"
+  "^  .*\\.\\(flv\\|FLV\\|avi\\|AVI\\|mkv\\|rmvb\\|RMVB\\|mpeg\\|mpg\\|MPG\\|rm\\|RM\\|mp4\\|wmv\\|WMV\\|m4v\\|mov\\|ogm\\|ogv\\|3gp\\|f4v\\|swf\\|webm\\|divx\\|xvid\\|rm\\)$"
   "regexp to match video filetypes"
   :type 'string
   :group 'dired-filetype-face)
@@ -248,7 +248,7 @@
   :group 'dired-filetype-face)
 
 (defcustom dired-filetype-image-regexp
-  "^  .*\\.\\(gif\\|GIF\\|jpg\\|JPG\\|bmp\\|BMP\\|jpeg?\\|JPEG?\\|png\\|PNG\\|xpm\\|svg\\)$"
+  "^  .*\\.\\(gif\\|GIF\\|jpg\\|JPG\\|bmp\\|BMP\\|jpeg?\\|JPEG?\\|png\\|PNG\\|xpm\\|svg\\|icns\\|odg\\|tiff?\\|epsf?\\|icon?\\|pict?\\|tga\\|pcx\\|xbm\\)$"
   "regexp to match images filetypes"
   :type 'string
   :group 'dired-filetype-face)
