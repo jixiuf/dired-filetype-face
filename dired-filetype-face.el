@@ -201,7 +201,7 @@ docstring instead of TYPE-FOR-SYMBOL."
 If not nil, use TYPE-FOR-DOCSTRING instead of TYPE for documentation.
 If not nil, use TYPE-FOR-SYMBOL instead of TYPE to derive the function symbol.
 If not nil, use TYPE-FOR-FACE instead of TYPE to derive the symbol for the associated face."
-  `(defun ,(intern (format "dired-filetype-set-%s-face" (or type-for-symbol type))) ()
+  `(defun ,(intern (format "dired-filetype-set-%s-face" (downcase (or type-for-symbol type)))) ()
      ,(format "Set dired-filetype-face for %s files." (or type-for-docstring type))
      (font-lock-add-keywords
        nil
@@ -217,7 +217,7 @@ If not nil, use TYPE-FOR-FACE instead of TYPE to derive the symbol for the assoc
                   ,(intern
                      (concat
                      "dired-filetype-"
-                     (or type-for-face type))))))))))))
+                     (downcase (or type-for-face type)))))))))))))
 
 (deffiletype-face-set-fun "document" "rich document")
 
