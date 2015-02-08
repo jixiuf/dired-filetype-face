@@ -105,6 +105,8 @@ docstring instead of TYPE-FOR-SYMBOL."
 
 (font-lock-add-keywords 'emacs-lisp-mode dired-filetype-face-font-lock-keywords)
 
+(defvar dired-filetype-setup-hook nil)
+
 (deffiletype-face "omit" "Chartreuse")
 
 (deffiletype-face-regexp
@@ -201,23 +203,30 @@ docstring instead of TYPE-FOR-SYMBOL."
 If not nil, use TYPE-FOR-DOCSTRING instead of TYPE for documentation.
 If not nil, use TYPE-FOR-SYMBOL instead of TYPE to derive the function symbol.
 If not nil, use TYPE-FOR-FACE instead of TYPE to derive the symbol for the associated face."
-  `(defun ,(intern (format "dired-filetype-set-%s-face" (downcase (or type-for-symbol type)))) ()
-     ,(format "Set dired-filetype-face for %s files." (or type-for-docstring type))
-     (font-lock-add-keywords
-       nil
-       (list
-         (cons
-           ,(intern
-              (format "dired-filetype-%s-regexp" (downcase type)))
-           '((".+"
-              (dired-move-to-filename)
-              nil
-              (0
-                (quote
-                  ,(intern
-                     (concat
-                     "dired-filetype-"
-                     (downcase (or type-for-face type)))))))))))))
+  (let
+    (
+      (funcsym
+        (intern (format "dired-filetype-set-%s-face" (downcase (or type-for-symbol type))))
+      )
+    )
+    `(progn
+       (defun ,funcsym ()
+         ,(format "Set dired-filetype-face for %s files." (or type-for-docstring type))
+         (font-lock-add-keywords
+           nil
+           (list
+             (cons
+               ,(intern (format "dired-filetype-%s-regexp" (downcase type)))
+               '((".+"
+                  (dired-move-to-filename)
+                  nil
+                  (0
+                    (quote
+                      ,(intern
+                        (concat
+                          "dired-filetype-"
+                          (downcase (or type-for-face type))))))))))))
+       (add-hook 'dired-filetype-setup-hook #',funcsym))))
 
 (deffiletype-face-set-fun "document" "rich document")
 
@@ -248,44 +257,29 @@ If not nil, use TYPE-FOR-FACE instead of TYPE to derive the symbol for the assoc
 (deffiletype-face-set-fun "lnk" "link")
 
 ;;;###autoload
-(defun dired-filetype-face-mode-func()
-  "this function will be added to `dired-mode-hook'"
-  (dired-filetype-set-document-face)
-  (dired-filetype-set-plain-face)
-  (dired-filetype-set-common-face)
-  (dired-filetype-set-exe-face)
-  (dired-filetype-set-omit-face)
-  (dired-filetype-set-omit2-face)
-  (dired-filetype-set-omit3-face)
-  (dired-filetype-set-source-face)
-  (dired-filetype-set-compress-face)
-  (dired-filetype-set-music-face)
-  (dired-filetype-set-video-face)
-  (dired-filetype-set-image-face)
-  (dired-filetype-set-xml-face)
-  (dired-filetype-set-lnk-face)
-  )
+(defun dired-filetype-setup-func()
+  (run-hooks dired-filetype-setup-hook))
 
-;;;###autoload(add-hook 'dired-mode-hook 'dired-filetype-face-mode-func)
-(add-hook 'dired-mode-hook 'dired-filetype-face-mode-func)
-;;;###autoload(add-hook 'wdired-mode-hook 'dired-filetype-face-mode-func)
-(add-hook 'wdired-mode-hook 'dired-filetype-face-mode-func)
+;;;###autoload(add-hook 'dired-mode-hook 'dired-filetype-setup-func)
+(add-hook 'dired-mode-hook 'dired-filetype-setup-func)
+;;;###autoload(add-hook 'wdired-mode-hook 'dired-filetype-setup-func)
+(add-hook 'wdired-mode-hook 'dired-filetype-setup-func)
 
 (defadvice dired-toggle-read-only (after  dired-filetype-face activate)
   "set different faces for different file type."
-  (dired-filetype-face-mode-func))
+  (dired-filetype-setup-func))
 
 (defadvice wdired-exit (after dired-filetype-face activate)
   "set different faces for different file type."
-  (dired-filetype-face-mode-func))
+  (dired-filetype-setup-func))
 
 (defadvice wdired-finish-edit (after dired-filetype-face activate)
   "set different faces for different file type."
-  (dired-filetype-face-mode-func))
+  (dired-filetype-setup-func))
 
 (defadvice wdired-abort-changes (after dired-filetype-face activate)
   "set different faces for different file type."
-  (dired-filetype-face-mode-func))
+  (dired-filetype-setup-func))
 
 (provide 'dired-filetype-face)
 
