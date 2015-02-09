@@ -100,7 +100,7 @@ docstring instead of TYPE-FOR-SYMBOL."
      :group 'dired-filetype-face))
 
 (defconst dired-filetype-face-font-lock-keywords
-  '(("(\\(deffiletype-face\\(?:-\\(?:regexp\\|set-fun\\)\\)?\\)\\_>"
+  '(("(\\(deffiletype\\(?:-\\(?:face\\|face-regexp\\|setup\\)\\)?\\)\\_>"
      (1 font-lock-keyword-face))))
 
 (font-lock-add-keywords 'emacs-lisp-mode dired-filetype-face-font-lock-keywords)
@@ -198,7 +198,7 @@ docstring instead of TYPE-FOR-SYMBOL."
 
 ;;; Custom ends here.
 
-(defmacro deffiletype-face-set-fun (type &optional type-for-docstring type-for-symbol type-for-face)
+(defmacro deffiletype-setup (type &optional type-for-docstring type-for-symbol type-for-face)
   "Declare a function to tell dired how to display TYPE files.
 If not nil, use TYPE-FOR-DOCSTRING instead of TYPE for documentation.
 If not nil, use TYPE-FOR-SYMBOL instead of TYPE to derive the function symbol.
@@ -228,58 +228,58 @@ If not nil, use TYPE-FOR-FACE instead of TYPE to derive the symbol for the assoc
                           (downcase (or type-for-face type))))))))))))
        (add-hook 'dired-filetype-setup-hook #',funcsym))))
 
-(deffiletype-face-set-fun "document" "rich document")
+(deffiletype-setup "document" "rich document")
 
-(deffiletype-face-set-fun "plain" "plain text")
+(deffiletype-setup "plain" "plain text")
 
-(deffiletype-face-set-fun "common")
+(deffiletype-setup "common")
 
-(deffiletype-face-set-fun "XML")
+(deffiletype-setup "XML")
 
-(deffiletype-face-set-fun "compress" "compressed")
+(deffiletype-setup "compress" "compressed")
 
-(deffiletype-face-set-fun "source" "source code")
+(deffiletype-setup "source" "source code")
 
-(deffiletype-face-set-fun "omit1" "unimportant" "omit" "omit")
+(deffiletype-setup "omit1" "unimportant" "omit" "omit")
 
-(deffiletype-face-set-fun "omit2" "backup and cache" nil "omit")
+(deffiletype-setup "omit2" "backup and cache" nil "omit")
 
-(deffiletype-face-set-fun "omit3" "hidden" nil "omit")
+(deffiletype-setup "omit3" "hidden" nil "omit")
 
-(deffiletype-face-set-fun "execute" "executable" "exe")
+(deffiletype-setup "execute" "executable" "exe")
 
-(deffiletype-face-set-fun "music" "audio")
+(deffiletype-setup "music" "audio")
 
-(deffiletype-face-set-fun "video")
+(deffiletype-setup "video")
 
-(deffiletype-face-set-fun "image")
+(deffiletype-setup "image")
 
-(deffiletype-face-set-fun "lnk" "link")
+(deffiletype-setup "lnk" "link")
 
 ;;;###autoload
-(defun dired-filetype-setup-func()
+(defun dired-filetype-setup()
   (run-hooks 'dired-filetype-setup-hook))
 
-;;;###autoload(add-hook 'dired-mode-hook 'dired-filetype-setup-func)
-(add-hook 'dired-mode-hook 'dired-filetype-setup-func)
-;;;###autoload(add-hook 'wdired-mode-hook 'dired-filetype-setup-func)
-(add-hook 'wdired-mode-hook 'dired-filetype-setup-func)
+;;;###autoload(add-hook 'dired-mode-hook 'dired-filetype-setup)
+(add-hook 'dired-mode-hook 'dired-filetype-setup)
+;;;###autoload(add-hook 'wdired-mode-hook 'dired-filetype-setup)
+(add-hook 'wdired-mode-hook 'dired-filetype-setup)
 
 (defadvice dired-toggle-read-only (after  dired-filetype-face activate)
   "set different faces for different file type."
-  (dired-filetype-setup-func))
+  (dired-filetype-setup))
 
 (defadvice wdired-exit (after dired-filetype-face activate)
   "set different faces for different file type."
-  (dired-filetype-setup-func))
+  (dired-filetype-setup))
 
 (defadvice wdired-finish-edit (after dired-filetype-face activate)
   "set different faces for different file type."
-  (dired-filetype-setup-func))
+  (dired-filetype-setup))
 
 (defadvice wdired-abort-changes (after dired-filetype-face activate)
   "set different faces for different file type."
-  (dired-filetype-setup-func))
+  (dired-filetype-setup))
 
 (provide 'dired-filetype-face)
 
