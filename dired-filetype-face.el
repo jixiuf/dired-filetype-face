@@ -163,7 +163,7 @@ docstring instead of TYPE-FOR-SYMBOL."
 (deffiletype-face "source code" "SpringGreen" "source")
 
 (deffiletype-face-regexp
-  "^  .*\\.\\(c\\|cpp\\|java\\|JAVA\\|C\\|php\\|h\\|rb\\|pl\\|css\\|el\\|lisp\\|lua\\|sql\\|ddl\\|ahk\\|cs\\|erl\\|hrl\\|go\\|py\\|pas\\|p\\|st\\|livecode\\|rev\\)$"
+  "^  .*\\.\\(c\\|cpp\\|java\\|JAVA\\|C\\|php\\|h\\|rb\\|pl\\|css\\|el\\|lisp\\|lua\\|sql\\|ddl\\|ahk\\|cs\\|erl\\|hrl\\|go\\|py\\|pas\\|p\\|st\\|livecode\\|rev\\|a\\|asm\\)$"
   "source"
   "source code")
 
