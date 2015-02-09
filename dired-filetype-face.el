@@ -112,7 +112,7 @@ docstring instead of TYPE-FOR-SYMBOL."
 
 (defvar dired-filetype-setup-hook nil)
 
-(deffiletype-face "omit" "Chartreuse")
+(deffiletype-face "omit" "dark gray")
 
 (deffiletype-face-regexp
   "^  .*\\.\\(elc\\|class\\|so\\|ko\\|la\\|o\\|al\\|ix\\|db\\|td\\|\\|dat\\|dll\\|Dll\\|DLL\\|sav\\|rdp\\|sys\\|SYS\\|prf\\|tlb\\|cat\\|bak\\)$"
