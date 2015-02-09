@@ -133,17 +133,17 @@ docstring instead of TYPE-FOR-SYMBOL."
   "document"
   "rich document")
 
-(deffiletype-face "plain text" "MediumPurple" "plain")
+(deffiletype-face "plain text" "DarkSeaGreen1" "plain")
 
 (deffiletype-face-regexp
-  "^  .*\\.\\(TXT\\|txt\\|Txt\\|ini\\|INI\\|lrc\\|org\\|log\\|conf\\|CFG\\|cfg\\|properties\\|config\\|diff\\|patch\\|ebuild\\|inf\\|cnf\\|example\\|sample\\|default\\|m4\\)$"
+  "^  .*\\.\\(TXT\\|txt\\|Txt\\|ini\\|INI\\|lrc\\|org\\|log\\|conf\\|CFG\\|cfg\\|properties\\|config\\|diff\\|patch\\|ebuild\\|inf\\|cnf\\|example\\|sample\\|default\\|m4\\|plist\\)$"
   "plain"
   "plain text")
 
 (deffiletype-face "common" "Peru")
 
 (deffiletype-face-regexp
-  "^  .*\\(configure\\|INSTALL\\|README\\|readme\\|COPYING\\|CHANGES\\|LICENSE\\|ChangeLog\\|Makefile.in\\|MANIFEST.MF\\|NOTICE.txt\\|build.xml\\|Manifest\\|metadata.xml\\|install-sh\\|NEWS\\|HACKING\\|AUTHORS\\|todo\\|Todo\\|TODO\\|makefile\\|TAGS\\|tag\\)$"
+  "^  .*\\(\.keystore\\|configure\\|INSTALL.*\\|Install.*\\|CONTRIBUTING.*\\|README.*\\|readme.*\\|Todo.*\\|TODO.*\\|Cask\\|COPYING.*\\|CHANGES\\|Changes\\|LICENSE\\|ChangeLog\\|Makefile\\|Makefile.in\\|MANIFEST.MF\\|NOTICE.txt\\|build.xml\\|Manifest\\|metadata.xml\\|install-sh\\|NEWS\\|HACKING\\|AUTHORS\\|todo\\|Todo\\|TODO\\||TAGS\\|tag\\|id_rsa\\|id_rsa.pub\\|id_dsa\\|id_dsa.pub\\|authorized_keys\\|known_hosts\\)$"
   "common")
 
 (deffiletype-face "XML" "Chocolate")
@@ -156,14 +156,14 @@ docstring instead of TYPE-FOR-SYMBOL."
 (deffiletype-face "compressed" "Orchid" "compress")
 
 (deffiletype-face-regexp
-  "^  .*\\.\\(tar\\|zip\\|ZIP\\|rar\\|RAR\\|tgz\\|gz\\|bzip2\\|bz2\\|7z\\|7Z\\|Z\\|z\\|xz\\|XZ\\|rpm\\|deb\\|lzma\\|cab\\|gzip\\|taz\\|wim\\|iso\\|tbz2\\|xar\\|XAR\\|jar\\|war\\|img\\)$"
+  "^  .*\\.\\(tar\\|zip\\|ZIP\\|rar\\|RAR\\|tgz\\|gz\\|bzip2\\|bz2\\|7z\\|7Z\\|Z\\|z\\|xz\\|XZ\\|rpm\\|deb\\|lzma\\|cab\\|gzip\\|taz\\|wim\\|iso\\|tbz2\\|xar\\|XAR\\|jar\\|war\\|img\\|pkg\\|apk\\)$"
   "compress"
   "compressed")
 
 (deffiletype-face "source code" "SpringGreen" "source")
 
 (deffiletype-face-regexp
-  "^  .*\\.\\(c\\|cpp\\|java\\|JAVA\\|C\\|php\\|h\\|rb\\|pl\\|css\\|el\\|lua\\|sql\\|ahk\\|cs\\|erl\\|hrl\\|go\\)$"
+  "^  .*\\.\\(c\\|cpp\\|java\\|JAVA\\|C\\|php\\|h\\|rb\\|pl\\|css\\|el\\|lua\\|sql\\|ahk\\|cs\\|erl\\|hrl\\|go\\|py\\)$"
   "source"
   "source code")
 
@@ -186,7 +186,7 @@ docstring instead of TYPE-FOR-SYMBOL."
   "^  .*\\.\\(flv\\|FLV\\|avi\\|AVI\\|mkv\\|rmvb\\|RMVB\\|mpeg\\|mpg\\|MPG\\|rm\\|RM\\|mp4\\|wmv\\|WMV\\|m4v\\|mov\\|ogm\\|ogv\\|3gp\\|f4v\\|swf\\|webm\\|divx\\|xvid\\|rm\\)$"
   "video")
 
-(deffiletype-face "image" "MediumPurple")
+(deffiletype-face "image" "IndianRed2")
 
 (deffiletype-face-regexp
   "^  .*\\.\\(gif\\|GIF\\|jpg\\|JPG\\|bmp\\|BMP\\|jpeg?\\|JPEG?\\|png\\|PNG\\|xpm\\|svg\\|icns\\|odg\\|tiff?\\|epsf?\\|icon?\\|pict?\\|tga\\|pcx\\|xbm\\)$"
