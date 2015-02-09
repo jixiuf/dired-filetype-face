@@ -258,7 +258,7 @@ If not nil, use TYPE-FOR-FACE instead of TYPE to derive the symbol for the assoc
 
 ;;;###autoload
 (defun dired-filetype-setup-func()
-  (run-hooks dired-filetype-setup-hook))
+  (run-hooks 'dired-filetype-setup-hook))
 
 ;;;###autoload(add-hook 'dired-mode-hook 'dired-filetype-setup-func)
 (add-hook 'dired-mode-hook 'dired-filetype-setup-func)
