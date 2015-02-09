@@ -1,11 +1,10 @@
 ;;; dired-filetype-face.el  --- set different faces for different filetype in dired buffer.
 
-;; Copyright (C) 2011~2012, 纪秀峰(Joseph) all rights reserved.
+;; Copyright (C) 2011~2015, 纪秀峰(Joseph) all rights reserved.
 ;; Created: 2011-04-04
-;; Last Update: 纪秀峰 2015-02-04 13:25:17
-;; Description: set faces for different file type in dired buffer.
 ;; Author: 纪秀峰(Joseph) <jixiuf@gmail.com>
-;; Version: 0.2.3
+;; Contributor:Phil Hudson
+;; Version: 0.3.0
 ;; URL: http://www.emacswiki.org/emacs/download/dired-filetype-face.el
 ;; X-URL:https://github.com/jixiuf/dired-filetype-face
 ;; Keywords: dired filetype face custom
@@ -52,7 +51,13 @@
 ;;
 ;; Add the following to your ~/.emacs startup file.
 ;;
-;; (eval-after-load 'dired '(progn (require 'dired-filetype-face)))
+;; (with-eval-after-load 'dired  (require 'dired-filetype-face))
+;;
+;; if you want add new face for new filetype
+;; (deffiletype-face "mytype" "Chartreuse")
+;; (deffiletype-face-regexp  "^  .*\\(\\.git\\)$"  "mytype" "face regexp for mytype")
+;; (deffiletype-setup "mytype" "mytype")
+;; 
 ;;
 ;; No need more.
 ;;
