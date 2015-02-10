@@ -115,12 +115,12 @@ docstring instead of TYPE-FOR-SYMBOL."
 (deffiletype-face "omit" "dark gray")
 
 (deffiletype-face-regexp
-  "^  .*\\.\\(elc\\|class\\|so\\|ko\\|la\\|o\\|al\\|ix\\|db\\|td\\|\\|dat\\|dll\\|Dll\\|DLL\\|sav\\|rdp\\|sys\\|SYS\\|prf\\|tlb\\|cat\\|bak\\)$"
+  "^  .*\\.\\(elc\\|fasl?\\|class\\|so\\|ko\\|la\\|o\\|al\\|ix\\|db\\|td\\|dat\\|dll\\|Dll\\|DLL\\|sav\\|rdp\\|sys\\|SYS\\|prf\\|tlb\\|cat\\|bak\\)$"
   "omit1"
   "unimportant")
 
 (deffiletype-face-regexp
-  "^  .*\\(\\.git\\|\\.svn\\|~\\|#\\|%\\|\\.tmp\\|\\$DATA\\|:encryptable\\|\\.db_encryptable\\)$"
+  "^  .*\\(\\.git\\|\\.svn\\|\\.bzr\\|\\.bazaar\\|~\\|#\\|%\\|\\.tmp\\|\\$DATA\\|:encryptable\\|\\.db_encryptable\\)$"
   "omit2"
   "backup or cache")
 
@@ -143,34 +143,34 @@ docstring instead of TYPE-FOR-SYMBOL."
 (deffiletype-face "common" "Peru")
 
 (deffiletype-face-regexp
-  "^  .*\\(\.keystore\\|configure\\|INSTALL.*\\|Install.*\\|CONTRIBUTING.*\\|README.*\\|readme.*\\|Todo.*\\|TODO.*\\|Cask\\|COPYING.*\\|CHANGES\\|Changes\\|LICENSE\\|ChangeLog\\|Makefile\\|Makefile.in\\|MANIFEST.MF\\|NOTICE.txt\\|build.xml\\|Manifest\\|metadata.xml\\|install-sh\\|NEWS\\|HACKING\\|AUTHORS\\|todo\\|Todo\\|TODO\\||TAGS\\|tag\\|id_rsa\\|id_rsa.pub\\|id_dsa\\|id_dsa.pub\\|authorized_keys\\|known_hosts\\)$"
+  "^  .*\\(\\.keystore\\|configure\\|INSTALL.*\\|Install.*\\|CONTRIBUTING.*\\|README.*\\|readme.*\\|Todo.*\\|TODO.*\\|Cask\\|COPYING.*\\|CHANGES\\|Changes\\|LICENSE\\|ChangeLog\\|Makefile\\|Makefile.in\\|MANIFEST.MF\\|NOTICE.txt\\|build.xml\\|Manifest\\|metadata.xml\\|install-sh\\|NEWS\\|HACKING\\|AUTHORS\\|todo\\|Todo\\|TODO\\||TAGS\\|tag\\|id_rsa\\|id_rsa.pub\\|id_dsa\\|id_dsa.pub\\|authorized_keys\\|known_hosts\\)$"
   "common")
 
 (deffiletype-face "XML" "Chocolate")
 
 (deffiletype-face-regexp
-  "^  .*\\.\\(html?\\|HTML?\\|xml\\|XML\\|xsl\\|xsd\\|rng\\|dtd\\|mht\\|jsp\\|asp\\|js\\|xaml\\)$"
+  "^  .*\\.\\(html?\\|HTML?\\|xml\\|XML\\|xsl\\|xsd\\|rng\\|dtd\\|mht\\|jspx?\\|aspx?\\|js\\|xaml\\)$"
   "xml"
   "XML")
 
 (deffiletype-face "compressed" "Orchid" "compress")
 
 (deffiletype-face-regexp
-  "^  .*\\.\\(tar\\|zip\\|ZIP\\|rar\\|RAR\\|tgz\\|gz\\|bzip2\\|bz2\\|7z\\|7Z\\|Z\\|z\\|xz\\|XZ\\|rpm\\|deb\\|lzma\\|cab\\|gzip\\|taz\\|wim\\|iso\\|tbz2\\|xar\\|XAR\\|jar\\|war\\|img\\|pkg\\|apk\\)$"
+  "^  .*\\.\\(tar\\|zip\\|ZIP\\|rar\\|RAR\\|tgz\\|gz\\|bzip2\\|bz2\\|7z\\|7Z\\|Z\\|z\\|xz\\|XZ\\|rpm\\|deb\\|lzma\\|cab\\|gzip\\|taz\\|wim\\|iso\\|tbz2\\|xar\\|XAR\\|jar\\|war\\|ear\\|img\\|pkg\\|apk\\)$"
   "compress"
   "compressed")
 
 (deffiletype-face "source code" "SpringGreen" "source")
 
 (deffiletype-face-regexp
-  "^  .*\\.\\(c\\|cpp\\|java\\|JAVA\\|C\\|php\\|h\\|rb\\|pl\\|css\\|el\\|lua\\|sql\\|ahk\\|cs\\|erl\\|hrl\\|go\\|py\\)$"
+  "^  .*\\.\\(c\\|cpp\\|java\\|JAVA\\|C\\|php\\|h\\|rb\\|pl\\|css\\|el\\|lisp\\|lua\\|sql\\|ddl\\|ahk\\|cs\\|erl\\|hrl\\|go\\|py\\|pas\\|p\\|st\\|livecode\\|rev\\|a\\|asm\\)$"
   "source"
   "source code")
 
 (deffiletype-face "executable" "green" "execute")
 
 (deffiletype-face-regexp
-  "^  .*\\.\\(exe\\|EXE\\|bat\\|BAT\\|msi\\|MSI\\|\\|sh\\|run\\|reg\\|REG\\|com\\|COM\\|\\|vbx\\|VBX\\|bin\\|xpi\\|bundle\\)$"
+  "^  .*\\.\\(exe\\|EXE\\|bat\\|BAT\\|msi\\|MSI\\|\\(?:t?c\\|z\\)?sh\\|run\\|reg\\|REG\\|com\\|COM\\|vbx\\|VBX\\|bin\\|xpi\\|bundle\\|awk\\)$"
   "execute"
   "executable")
 
