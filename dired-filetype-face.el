@@ -143,7 +143,7 @@ docstring instead of TYPE-FOR-SYMBOL."
 (deffiletype-face "common" "Peru")
 
 (deffiletype-face-regexp
-  "^  .*\\(\\.keystore\\|configure\\|INSTALL.*\\|Install.*\\|CONTRIBUTING.*\\|README.*\\|readme.*\\|Todo.*\\|TODO.*\\|Cask\\|COPYING.*\\|CHANGES\\|Changes\\|LICENSE\\|ChangeLog\\|Makefile\\|Makefile.in\\|MANIFEST.MF\\|NOTICE.txt\\|build.xml\\|Manifest\\|metadata.xml\\|install-sh\\|NEWS\\|HACKING\\|AUTHORS\\|todo\\|Todo\\|TODO\\||TAGS\\|tag\\|id_rsa\\|id_rsa.pub\\|id_dsa\\|id_dsa.pub\\|authorized_keys\\|known_hosts\\)$"
+  "^  .*\\(\\.keystore\\|configure\\|INSTALL.*\\|Install.*\\|CONTRIBUTING.*\\|README.*\\|readme.*\\|todo\\|Todo.*\\|TODO.*\\|Cask\\|COPYING.*\\|CHANGES\\|Changes\\|LICENSE\\|ChangeLog\\|Makefile\\|Makefile.in\\|MANIFEST.MF\\|NOTICE.txt\\|build.xml\\|Manifest\\|metadata.xml\\|install-sh\\|NEWS\\|HACKING\\|AUTHORS\\||TAGS\\|tag\\|id_rsa\\|id_rsa.pub\\|id_dsa\\|id_dsa.pub\\|authorized_keys\\|known_hosts\\)$"
   "common")
 
 (deffiletype-face "XML" "Chocolate")
