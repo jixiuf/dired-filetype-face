@@ -213,7 +213,7 @@ docstring instead of TYPE-FOR-SYMBOL."
   "lnk")
 
 (deffiletype-face-regexp
-  "^  l\\|^  .*\\.\\(lnk\\|LNK\\|desktop\\|torrent\\|url\\|URL\\)$"
+  "^  l\\|^  -.*\\.\\(lnk\\|LNK\\|desktop\\|torrent\\|url\\|URL\\)$"
   "lnk" "link")
 
 ;;; Custom ends here.
