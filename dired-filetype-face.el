@@ -266,7 +266,7 @@ If not nil, use TYPE-FOR-FACE instead of TYPE to derive the symbol for the assoc
 
 (deffiletype-setup "omit3" "hidden" nil "omit")
 
-(deffiletype-setup "binary")
+(deffiletype-setup "program")
 
 (deffiletype-setup "execute" "executable")
 
