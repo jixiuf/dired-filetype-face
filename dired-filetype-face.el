@@ -63,8 +63,24 @@
 ;; If you want to add a new face for new filetype(s):
 ;;
 ;;   (deffiletype-face "mytype" "Chartreuse")
-;;   (deffiletype-face-regexp  "^  -.*\\(\\.git\\)$"  "mytype" "face regexp for mytype")
+;;
+;; then either:
+;;
+;;   (deffiletype-face-regexp mytype
+;;     :extensions '("foo" "bar") :type-for-docstring "my type")
+;;
+;; to match all files ending either ".foo" or ".bar", or equivalently:
+;;
+;;   (deffiletype-face-regexp mytype
+;;     :regexp "^  -.*\\.\\(foo\\|bar\\)$" :type-for-docstring "my type")
+;;
+;; and finally:
+;;
 ;;   (deffiletype-setup "mytype" "mytype")
+;;
+;; The :regexp form allows you to specify other things to match on each line of
+;; the dired buffer than (only) file extensions, such as the permission bits,
+;; the size and the modification times.
 ;;
 ;; No need more.
 ;;
@@ -127,8 +143,7 @@ derive a regexp to match against each line in the dired buffer."
           (plist-get args :type-for-docstring)
           type-for-symbol))
       (regexp (plist-get args :regexp))
-      (extensions (plist-get args :extensions))
-    )
+      (extensions (plist-get args :extensions)))
     (unless
       (or (and (null regexp) extensions) (and (null extensions) regexp))
       (error
@@ -190,7 +205,7 @@ derive a regexp to match against each line in the dired buffer."
   "^  -.*\\(\\.git\\|\\.svn\\|\\.bzr\\|\\.bazaar\\|~\\|#\\|%\\|\\.tmp\\|\\$DATA\\|:encryptable\\|\\.db_encryptable\\)$")
 
 (deffiletype-face-regexp omit3
-  :type-for-docstring hidden :regexp "^  -.* \\.\\(.*$\\)")
+  :type-for-docstring hidden :regexp "^  .* \\.\\(.*$\\)")
 
 (deffiletype-face "rich document" "DarkCyan" "document")
 
