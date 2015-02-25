@@ -103,16 +103,25 @@ hexadecimal RGB number such as \"#xaaaaaa\"."
      :tag ,(format "Dired %s filetype face" type)
      :group 'dired-filetype-face))
 
-(defmacro deffiletype-face-regexp (&rest args)
-  "Use ARGS to declare a dired filetype pattern user option.
+(defmacro deffiletype-face-regexp (type-for-symbol &rest args)
+  "Use TYPE-FOR-SYMBOL and keyword ARGS to declare a dired filetype pattern.
 
 Use TYPE-FOR-SYMBOL to derive the option symbol.
 
-If TYPE-FOR-DOCSTRING is not nil, use that in the option
-docstring instead of TYPE-FOR-SYMBOL."
+If keyword argument :type-for-docstring is not nil, use that in
+the option docstring instead of TYPE-FOR-SYMBOL.
+
+Exactly one of the two mutually-exclusive keyword
+arguments :regexp or :extensions is required.
+
+Keyword argument :regexp must be a regexp string to match against
+each line in the dired buffer.
+
+Keyword argument :extensions must be a list of strings, each of which is a
+literal filetype extension (without a leading dot). This list will be used to
+derive a regexp to match against each line in the dired buffer."
   (let*
     (
-      (type-for-symbol (plist-get args :type-for-symbol))
       (type-for-docstring
         (or
           (plist-get args :type-for-docstring)
@@ -120,21 +129,21 @@ docstring instead of TYPE-FOR-SYMBOL."
       (regexp (plist-get args :regexp))
       (extensions (plist-get args :extensions))
     )
-  (unless
-    (or (and (null regexp) extensions) (and (null extensions) regexp))
-    (error
-      "Exactly one of keyword arguments :regexp and :extensions is required"))
-  `(defcustom ,(i__d__f "dired-filetype-%s-regexp" type-for-symbol)
-     ,(or regexp extensions)
-     ,(format
-        "Regexp or list of file type extensions to match %s file-types in dired."
-        type-for-docstring)
-     :type
-     '(choice
-        (repeat :tag "File extensions" string)
-        (regexp :tag "Regular expression to match against whole dired line"))
-     :tag ,(format "Dired %s filetype pattern" type-for-docstring)
-     :group 'dired-filetype-face)))
+    (unless
+      (or (and (null regexp) extensions) (and (null extensions) regexp))
+      (error
+        "Exactly one of keyword arguments :regexp and :extensions is required"))
+    `(defcustom ,(i__d__f "dired-filetype-%s-regexp" type-for-symbol)
+       ,(or regexp extensions)
+       ,(format
+          "Regexp or list of file type extensions to match %s file-types in dired."
+          type-for-docstring)
+       :type
+       '(choice
+          (repeat :tag "File extensions" string)
+          (regexp :tag "Regular expression to match against whole dired line"))
+       :tag ,(format "Dired %s filetype pattern" type-for-docstring)
+       :group 'dired-filetype-face)))
 
 (defconst dired-filetype-face-font-lock-keywords
   '(("(\\(deffiletype\\(?:-\\(?:face\\|face-regexp\\|setup\\)\\)?\\)\\_>"
@@ -146,7 +155,7 @@ docstring instead of TYPE-FOR-SYMBOL."
 
 (deffiletype-face "omit" "dark gray")
 
-(deffiletype-face-regexp :type-for-symbol omit1
+(deffiletype-face-regexp omit1
   :type-for-docstring unimportant
   :extensions
   '(
@@ -175,17 +184,17 @@ docstring instead of TYPE-FOR-SYMBOL."
      "td"
      "tlb"))
 
-(deffiletype-face-regexp :type-for-symbol omit2
+(deffiletype-face-regexp omit2
   :type-for-docstring "backup or cache"
   :regexp
   "^  -.*\\(\\.git\\|\\.svn\\|\\.bzr\\|\\.bazaar\\|~\\|#\\|%\\|\\.tmp\\|\\$DATA\\|:encryptable\\|\\.db_encryptable\\)$")
 
-(deffiletype-face-regexp :type-for-symbol omit3
+(deffiletype-face-regexp omit3
   :type-for-docstring hidden :regexp "^  -.* \\.\\(.*$\\)")
 
 (deffiletype-face "rich document" "DarkCyan" "document")
 
-(deffiletype-face-regexp :type-for-symbol document
+(deffiletype-face-regexp document
   :type-for-docstring "rich document"
   :extensions
   '(
@@ -213,7 +222,7 @@ docstring instead of TYPE-FOR-SYMBOL."
 
 (deffiletype-face "plain text" "DarkSeaGreen1" "plain")
 
-(deffiletype-face-regexp :type-for-symbol plain :type-for-docstring "plain text"
+(deffiletype-face-regexp plain :type-for-docstring "plain text"
   :extensions
   '(
      "CFG"
@@ -242,13 +251,13 @@ docstring instead of TYPE-FOR-SYMBOL."
 
 (deffiletype-face "common" "Peru")
 
-(deffiletype-face-regexp :type-for-symbol common
+(deffiletype-face-regexp common
   :regexp
   "^  -.*\\(\\.keystore\\|configure\\|INSTALL.*\\|Install.*\\|CONTRIBUTING.*\\|README.*\\|readme.*\\|todo\\|Todo.*\\|TODO.*\\|Cask\\|COPYING.*\\|CHANGES\\|Changes\\|LICENSE\\|ChangeLog\\|Makefile\\|Makefile.in\\|MANIFEST.MF\\|NOTICE.txt\\|build.xml\\|Manifest\\|metadata.xml\\|install-sh\\|NEWS\\|HACKING\\|AUTHORS\\||TAGS\\|tag\\|id_rsa\\|id_rsa.pub\\|id_dsa\\|id_dsa.pub\\|authorized_keys\\|known_hosts\\)$")
 
 (deffiletype-face "XML" "Chocolate")
 
-(deffiletype-face-regexp :type-for-symbol XML
+(deffiletype-face-regexp XML
   :extensions
   '(
      "asp"
@@ -271,7 +280,7 @@ docstring instead of TYPE-FOR-SYMBOL."
 
 (deffiletype-face "compressed" "Orchid" "compress")
 
-(deffiletype-face-regexp :type-for-symbol compress
+(deffiletype-face-regexp compress
   :type-for-docstring compressed
   :extensions
   '(
@@ -312,7 +321,7 @@ docstring instead of TYPE-FOR-SYMBOL."
 
 (deffiletype-face "source code" "SpringGreen" "source")
 
-(deffiletype-face-regexp :type-for-symbol source
+(deffiletype-face-regexp source
   :type-for-docstring "source code"
   :extensions
   '(
@@ -350,18 +359,18 @@ docstring instead of TYPE-FOR-SYMBOL."
 
 (deffiletype-face "program" "blue")
 
-(deffiletype-face-regexp :type-for-symbol program
+(deffiletype-face-regexp program
   :regexp
   "^  -\\([r-][w-]-\\)\\{3\\}.*\\.\\(exe\\|EXE\\|bat\\|BAT\\|msi\\|MSI\\|\\(?:t?c\\|z\\)?sh\\|run\\|reg\\|REG\\|com\\|COM\\|vbx\\|VBX\\|bin\\|xpi\\|bundle\\|awk\\)$")
 
 (deffiletype-face "executable" "green" "execute")
 
-(deffiletype-face-regexp :type-for-symbol execute :type-for-docstring executable
+(deffiletype-face-regexp execute :type-for-docstring executable
   :regexp "^  -\\([r-][w-]-\\)\\{,2\\}[r-][w-]x")
 
 (deffiletype-face "music" "SteelBlue")
 
-(deffiletype-face-regexp :type-for-symbol music
+(deffiletype-face-regexp music
   :extensions
   '(
      "AAC"
@@ -385,7 +394,7 @@ docstring instead of TYPE-FOR-SYMBOL."
 
 (deffiletype-face "video" "SandyBrown")
 
-(deffiletype-face-regexp :type-for-symbol video
+(deffiletype-face-regexp video
   :extensions
   '(
      "3gp"
@@ -416,7 +425,7 @@ docstring instead of TYPE-FOR-SYMBOL."
 
 (deffiletype-face "image" "IndianRed2")
 
-(deffiletype-face-regexp :type-for-symbol image
+(deffiletype-face-regexp image
   :extensions
   '(
      "BMP"
@@ -449,7 +458,7 @@ docstring instead of TYPE-FOR-SYMBOL."
   "link"
   '((((class color) (background dark)) :foreground "yellow" :background "forest green") (t ())))
 
-(deffiletype-face-regexp :type-for-symbol link
+(deffiletype-face-regexp link
   :regexp
   "^  l\\|^  -.*\\.\\(lnk\\|LNK\\|desktop\\|torrent\\|url\\|URL\\)$")
 
