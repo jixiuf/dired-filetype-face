@@ -1,4 +1,4 @@
-;;; dired-filetype-face.el  --- set different faces for different filetype in dired buffer.
+;;; dired-filetype-face.el  --- set different faces for different filetypes in dired.
 
 ;; Copyright (C) 2011~2015, 纪秀峰(Joseph) all rights reserved.
 ;; Created: 2011-04-04
@@ -12,7 +12,7 @@
 ;;
 ;; Features that might be required by this library:
 ;;
-;;   `custom', `dired', `widget'.
+;;   None
 ;;
 ;; This file is NOT part of GNU Emacs
 
@@ -35,29 +35,52 @@
 
 ;;; Commentary:
 ;;
-;;  Set faces for different file type in dired buffer. I use a dark
-;;  background, so maybe the default face doesn't meet your request.
-;;  you can : M-x: customize-group dired-filetype-face  RET
-;;  And maybe M-x: customize-group dired-faces  RET
+;;  Set faces for different file types in dired. I use a dark background,
+;;  so maybe the default face doesn't meet your request.
+;;  You can:
+;;
+;;    M-x customize-group dired-filetype-face  RET
+;;
+;;  And maybe:
+;;
+;;    M-x customize-group dired-faces  RET
+;;
 ;;  may do some help for you.
 ;;
 ;;
 ;;; Installation:
 ;;
-;; Just put `dired-filetype-face.el' to your load-path.
-;; The load-path is usually ~/elisp/.
+;; Put `dired-filetype-face.el' in your load-path.
+;; Your load-path might include the directory ~/elisp/, for example.
 ;; It's set in your ~/.emacs like this:
-;; (add-to-list 'load-path (expand-file-name "~/elisp"))
+;;
+;;   (add-to-list 'load-path (expand-file-name "~/elisp"))
 ;;
 ;; Add the following to your ~/.emacs startup file.
 ;;
-;; (with-eval-after-load 'dired  (require 'dired-filetype-face))
+;;   (with-eval-after-load 'dired  (require 'dired-filetype-face))
 ;;
-;; if you want add new face for new filetype
-;; (deffiletype-face "mytype" "Chartreuse")
-;; (deffiletype-face-regexp  "^  .*\\(\\.git\\)$"  "mytype" "face regexp for mytype")
-;; (deffiletype-setup "mytype" "mytype")
-;; 
+;; If you want to add a new face for new filetype(s):
+;;
+;;   (deffiletype-face "mytype" "Chartreuse")
+;;
+;; then either:
+;;
+;;   (deffiletype-face-regexp mytype
+;;     :extensions '("foo" "bar") :type-for-docstring "my type")
+;;
+;; to match all files ending either ".foo" or ".bar", or equivalently:
+;;
+;;   (deffiletype-face-regexp mytype
+;;     :regexp "^  -.*\\.\\(foo\\|bar\\)$" :type-for-docstring "my type")
+;;
+;; and finally:
+;;
+;;   (deffiletype-setup "mytype" "mytype")
+;;
+;; The :regexp form allows you to specify other things to match on each line of
+;; the dired buffer than (only) file extensions, such as the permission bits,
+;; the size and the modification times.
 ;;
 ;; No need more.
 ;;
@@ -68,9 +91,13 @@
 (require 'custom)
 
 (defgroup dired-filetype-face nil
-  "set faces for different filetype in dired buffer."
+  "Set faces for different filetypes in dired."
   :prefix "dired-filetype-face-"
   :group 'dired-faces)
+
+(defmacro i__d__f (fmt sym)
+  "Call `format' on FMT and SYM, then `downcase', then `intern'."
+  `(intern (downcase (format ,fmt ,sym))))
 
 (defmacro deffiletype-face (type color &optional type-for-symbol)
   "Declare a dired filetype face for displaying TYPE files in the given COLOR.
@@ -84,25 +111,54 @@ Otherwise, define a face named
 COLOR may be a string or a list of face properties. If a string,
 it is either a color name such as \"Chartreuse\" or a color
 hexadecimal RGB number such as \"#xaaaaaa\"."
-  `(defface ,(intern (concat "dired-filetype-" (downcase (or type-for-symbol type))))
+  `(defface ,(i__d__f "dired-filetype-%s" (or type-for-symbol type))
      ,(if (stringp color)
        `(quote ((t (:foreground ,color))))
        color)
      ,(format "Face for displaying %s files in dired." type)
+     :tag ,(format "Dired %s filetype face" type)
      :group 'dired-filetype-face))
 
-(defmacro deffiletype-face-regexp (regexp type-for-symbol &optional type-for-docstring)
-  "Declare a filetype REGEXP option for dired to colorize matching files.
+(defmacro deffiletype-face-regexp (type-for-symbol &rest args)
+  "Use TYPE-FOR-SYMBOL and keyword ARGS to declare a dired filetype pattern.
 
 Use TYPE-FOR-SYMBOL to derive the option symbol.
 
-If TYPE-FOR-DOCSTRING is not nil, use that in the option
-docstring instead of TYPE-FOR-SYMBOL."
-  `(defcustom ,(intern (format "dired-filetype-%s-regexp" type-for-symbol))
-     ,regexp
-     ,(format "Regexp to match %s file-types in dired." (or type-for-docstring type-for-symbol))
-     :type 'string
-     :group 'dired-filetype-face))
+If keyword argument :type-for-docstring is not nil, use that in
+the option docstring instead of TYPE-FOR-SYMBOL.
+
+Exactly one of the two mutually-exclusive keyword
+arguments :regexp or :extensions is required.
+
+Keyword argument :regexp must be a regexp string to match against
+each line in the dired buffer.
+
+Keyword argument :extensions must be a list of strings, each of which is a
+literal filetype extension (without a leading dot). This list will be used to
+derive a regexp to match against each line in the dired buffer."
+  (let*
+    (
+      (type-for-docstring
+        (or
+          (plist-get args :type-for-docstring)
+          type-for-symbol))
+      (regexp (plist-get args :regexp))
+      (extensions (plist-get args :extensions)))
+    (unless
+      (or (and (null regexp) extensions) (and (null extensions) regexp))
+      (error
+        "Exactly one of keyword arguments :regexp and :extensions is required"))
+    `(defcustom ,(i__d__f "dired-filetype-%s-regexp" type-for-symbol)
+       ,(or regexp extensions)
+       ,(format
+          "Regexp or list of file type extensions to match %s file-types in dired."
+          type-for-docstring)
+       :type
+       '(choice
+          (repeat :tag "File extensions" string)
+          (regexp :tag "Regular expression to match against whole dired line"))
+       :tag ,(format "Dired %s filetype pattern" type-for-docstring)
+       :group 'dired-filetype-face)))
 
 (defconst dired-filetype-face-font-lock-keywords
   '(("(\\(deffiletype\\(?:-\\(?:face\\|face-regexp\\|setup\\)\\)?\\)\\_>"
@@ -114,106 +170,366 @@ docstring instead of TYPE-FOR-SYMBOL."
 
 (deffiletype-face "omit" "dark gray")
 
-(deffiletype-face-regexp
-  "^  .*\\.\\(elc\\|fasl?\\|class\\|so\\|ko\\|la\\|o\\|al\\|ix\\|db\\|td\\|dat\\|dll\\|Dll\\|DLL\\|sav\\|rdp\\|sys\\|SYS\\|prf\\|tlb\\|cat\\|bak\\)$"
-  "omit1"
-  "unimportant")
+(deffiletype-face-regexp omit1
+  :type-for-docstring unimportant
+  :extensions
+  '(
+     "al"
+     "bak"
+     "cat"
+     "class"
+     "dat"
+     "db"
+     "DLL"
+     "Dll"
+     "dll"
+     "elc"
+     "fas"
+     "fasl"
+     "ix"
+     "ko"
+     "la"
+     "o"
+     "prf"
+     "rdp"
+     "sav"
+     "so"
+     "SYS"
+     "sys"
+     "td"
+     "tlb"))
 
-(deffiletype-face-regexp
-  "^  .*\\(\\.git\\|\\.svn\\|\\.bzr\\|\\.bazaar\\|~\\|#\\|%\\|\\.tmp\\|\\$DATA\\|:encryptable\\|\\.db_encryptable\\)$"
-  "omit2"
-  "backup or cache")
+(deffiletype-face-regexp omit2
+  :type-for-docstring "backup or cache"
+  :regexp
+  "^  -.*\\(\\.git\\|\\.svn\\|\\.bzr\\|\\.bazaar\\|~\\|#\\|%\\|\\.tmp\\|\\$DATA\\|:encryptable\\|\\.db_encryptable\\)$")
 
-(deffiletype-face-regexp " \\.\\(.*$\\)" "omit3" "hidden")
+(deffiletype-face-regexp omit3
+  :type-for-docstring hidden :regexp "^  .* \\.\\(.*$\\)")
 
 (deffiletype-face "rich document" "DarkCyan" "document")
 
-(deffiletype-face-regexp
-  "^  .*\\.\\(pdf\\|chm\\|CHM\\|tex\\|doc\\|docx\\|xls\\|xlsx\\|ppt\\|pptx\\|odt\\|ott\\|rtf\\|sdw\\|ods\\|sxc\\|odp\\|otp\\|sdx\\|kdh\\|shx\\)$"
-  "document"
-  "rich document")
+(deffiletype-face-regexp document
+  :type-for-docstring "rich document"
+  :extensions
+  '(
+     "CHM"
+     "chm"
+     "doc"
+     "docx"
+     "kdh"
+     "odp"
+     "ods"
+     "odt"
+     "otp"
+     "ott"
+     "pdf"
+     "ppt"
+     "pptx"
+     "rtf"
+     "sdw"
+     "sdx"
+     "shx"
+     "sxc"
+     "tex"
+     "xls"
+     "xlsx"))
 
 (deffiletype-face "plain text" "DarkSeaGreen1" "plain")
 
-(deffiletype-face-regexp
-  "^  .*\\.\\(TXT\\|txt\\|Txt\\|ini\\|INI\\|lrc\\|org\\|log\\|conf\\|CFG\\|cfg\\|properties\\|config\\|diff\\|patch\\|ebuild\\|inf\\|cnf\\|example\\|sample\\|default\\|m4\\|plist\\)$"
-  "plain"
-  "plain text")
+(deffiletype-face-regexp plain :type-for-docstring "plain text"
+  :extensions
+  '(
+     "CFG"
+     "cfg"
+     "cnf"
+     "conf"
+     "config"
+     "default"
+     "diff"
+     "ebuild"
+     "example"
+     "inf"
+     "INI"
+     "ini"
+     "log"
+     "lrc"
+     "m4"
+     "org"
+     "patch"
+     "plist"
+     "properties"
+     "sample"
+     "TXT"
+     "Txt"
+     "txt"))
 
 (deffiletype-face "common" "Peru")
 
-(deffiletype-face-regexp
-  "^  .*\\(\\.keystore\\|configure\\|INSTALL.*\\|Install.*\\|CONTRIBUTING.*\\|README.*\\|readme.*\\|todo\\|Todo.*\\|TODO.*\\|Cask\\|COPYING.*\\|CHANGES\\|Changes\\|LICENSE\\|ChangeLog\\|Makefile\\|Makefile.in\\|MANIFEST.MF\\|NOTICE.txt\\|build.xml\\|Manifest\\|metadata.xml\\|install-sh\\|NEWS\\|HACKING\\|AUTHORS\\||TAGS\\|tag\\|id_rsa\\|id_rsa.pub\\|id_dsa\\|id_dsa.pub\\|authorized_keys\\|known_hosts\\)$"
-  "common")
+(deffiletype-face-regexp common
+  :regexp
+  "^  -.*\\(\\.keystore\\|configure\\|INSTALL.*\\|Install.*\\|CONTRIBUTING.*\\|README.*\\|readme.*\\|todo\\|Todo.*\\|TODO.*\\|Cask\\|COPYING.*\\|CHANGES\\|Changes\\|LICENSE\\|ChangeLog\\|Makefile\\|Makefile.in\\|MANIFEST.MF\\|NOTICE.txt\\|build.xml\\|Manifest\\|metadata.xml\\|install-sh\\|NEWS\\|HACKING\\|AUTHORS\\||TAGS\\|tag\\|id_rsa\\|id_rsa.pub\\|id_dsa\\|id_dsa.pub\\|authorized_keys\\|known_hosts\\)$")
 
 (deffiletype-face "XML" "Chocolate")
 
-(deffiletype-face-regexp
-  "^  .*\\.\\(html?\\|HTML?\\|xml\\|XML\\|xsl\\|xsd\\|rng\\|dtd\\|mht\\|jspx?\\|aspx?\\|js\\|xaml\\)$"
-  "xml"
-  "XML")
+(deffiletype-face-regexp XML
+  :extensions
+  '(
+     "asp"
+     "aspx"
+     "dtd"
+     "HTM"
+     "htm"
+     "HTML"
+     "html"
+     "js"
+     "jsp"
+     "jspx"
+     "mht"
+     "rng"
+     "xaml"
+     "XML"
+     "xml"
+     "xsd"
+     "xsl"))
 
 (deffiletype-face "compressed" "Orchid" "compress")
 
-(deffiletype-face-regexp
-  "^  .*\\.\\(tar\\|zip\\|ZIP\\|rar\\|RAR\\|tgz\\|gz\\|bzip2\\|bz2\\|7z\\|7Z\\|Z\\|z\\|xz\\|XZ\\|rpm\\|deb\\|lzma\\|cab\\|gzip\\|taz\\|wim\\|iso\\|tbz2\\|xar\\|XAR\\|jar\\|war\\|ear\\|img\\|pkg\\|apk\\)$"
-  "compress"
-  "compressed")
+(deffiletype-face-regexp compress
+  :type-for-docstring compressed
+  :extensions
+  '(
+     "7Z"
+     "7z"
+     "apk"
+     "bz2"
+     "bzip2"
+     "cab"
+     "deb"
+     "ear"
+     "gpg"
+     "gz"
+     "gzip"
+     "img"
+     "iso"
+     "jar"
+     "lzma"
+     "pkg"
+     "RAR"
+     "rar"
+     "rpm"
+     "tar"
+     "taz"
+     "tbz2"
+     "tgz"
+     "txz"
+     "war"
+     "wim"
+     "XAR"
+     "xar"
+     "XZ"
+     "xz"
+     "Z"
+     "z"
+     "ZIP"
+     "zip"))
 
 (deffiletype-face "source code" "SpringGreen" "source")
 
-(deffiletype-face-regexp
-  "^  .*\\.\\(c\\|cpp\\|java\\|JAVA\\|C\\|php\\|h\\|rb\\|pl\\|css\\|el\\|lisp\\|lua\\|sql\\|ddl\\|ahk\\|cs\\|erl\\|hrl\\|go\\|py\\|pas\\|p\\|st\\|livecode\\|rev\\|a\\|asm\\)$"
-  "source"
-  "source code")
+(deffiletype-face-regexp source
+  :type-for-docstring "source code"
+  :extensions
+  '(
+     "a"
+     "ahk"
+     "asm"
+     "C"
+     "c"
+     "cpp"
+     "cs"
+     "css"
+     "ddl"
+     "el"
+     "erl"
+     "go"
+     "h"
+     "hrl"
+     "JAVA"
+     "java"
+     "lisp"
+     "livecode"
+     "lua"
+     "p"
+     "pas"
+     "php"
+     "pl"
+     "py"
+     "rb"
+     "rev"
+     "sch"
+     "scheme"
+     "scm"
+     "sql"
+     "st"))
+
+(deffiletype-face "program" "blue")
+
+(deffiletype-face-regexp program
+  :regexp
+  "^  -\\([r-][w-]-\\)\\{3\\}.*\\.\\(exe\\|EXE\\|bat\\|BAT\\|msi\\|MSI\\|\\(?:t?c\\|z\\)?sh\\|run\\|reg\\|REG\\|com\\|COM\\|vbx\\|VBX\\|bin\\|xpi\\|bundle\\|awk\\)$")
 
 (deffiletype-face "executable" "green" "execute")
 
-(deffiletype-face-regexp
-  "^  .*\\.\\(exe\\|EXE\\|bat\\|BAT\\|msi\\|MSI\\|\\(?:t?c\\|z\\)?sh\\|run\\|reg\\|REG\\|com\\|COM\\|vbx\\|VBX\\|bin\\|xpi\\|bundle\\|awk\\)$"
-  "execute"
-  "executable")
+(deffiletype-face-regexp execute :type-for-docstring executable
+  :regexp "^  -\\([r-][w-]-\\)\\{,2\\}[r-][w-]x")
 
 (deffiletype-face "music" "SteelBlue")
 
-(deffiletype-face-regexp
-  "^  .*\\.\\(mp3\\|MP3\\|wma\\|WMA\\|wav\\|WAV\\|mid\\|MID\\|ogg\\|OGG\\|aac\\|AAC\\|flac\\|FLAC\\|m4a\\|M4A\\)$"
-  "music")
+(deffiletype-face-regexp music
+  :extensions
+  '(
+     "AAC"
+     "aac"
+     "FLAC"
+     "flac"
+     "m3u"
+     "M4A"
+     "m4a"
+     "MID"
+     "mid"
+     "MP3"
+     "mp3"
+     "OGG"
+     "ogg"
+     "pls"
+     "WAV"
+     "wav"
+     "WMA"
+     "wma"))
 
 (deffiletype-face "video" "SandyBrown")
 
-(deffiletype-face-regexp
-  "^  .*\\.\\(flv\\|FLV\\|avi\\|AVI\\|mkv\\|rmvb\\|RMVB\\|mpeg\\|mpg\\|MPG\\|rm\\|RM\\|mp4\\|wmv\\|WMV\\|m4v\\|mov\\|ogm\\|ogv\\|3gp\\|f4v\\|swf\\|webm\\|divx\\|xvid\\|rm\\)$"
-  "video")
+(deffiletype-face-regexp video
+  :extensions
+  '(
+     "3gp"
+     "AVI"
+     "avi"
+     "divx"
+     "f4v"
+     "FLV"
+     "flv"
+     "m4v"
+     "mkv"
+     "mov"
+     "mp4"
+     "mpeg"
+     "MPG"
+     "mpg"
+     "ogm"
+     "ogv"
+     "RM"
+     "rm"
+     "RMVB"
+     "rmvb"
+     "swf"
+     "webm"
+     "WMV"
+     "wmv"
+     "xvid"))
 
 (deffiletype-face "image" "IndianRed2")
 
-(deffiletype-face-regexp
-  "^  .*\\.\\(gif\\|GIF\\|jpg\\|JPG\\|bmp\\|BMP\\|jpeg?\\|JPEG?\\|png\\|PNG\\|xpm\\|svg\\|icns\\|odg\\|tiff?\\|epsf?\\|icon?\\|pict?\\|tga\\|pcx\\|xbm\\)$"
-  "image")
+(deffiletype-face-regexp image
+  :extensions
+  '(
+     "BMP"
+     "bmp"
+     "eps"
+     "epsf"
+     "GIF"
+     "gif"
+     "icns"
+     "ico"
+     "icon"
+     "JPEG"
+     "jpeg"
+     "JPG"
+     "jpg"
+     "odg"
+     "pcx"
+     "pic"
+     "pict"
+     "PNG"
+     "png"
+     "svg"
+     "tga"
+     "tif"
+     "tiff"
+     "xbm"
+     "xpm"))
 
 (deffiletype-face
   "link"
-  '((((class color) (background dark)) :foreground "yellow" :background "forest green") (t ()))
-  "lnk")
+  '((((class color) (background dark)) :foreground "yellow" :background "forest green") (t ())))
 
-(deffiletype-face-regexp
-  "^  .*\\.\\(lnk\\|LNK\\|desktop\\|torrent\\|url\\|URL\\)$"
-  "lnk" "link")
+(deffiletype-face-regexp link
+  :regexp
+  "^  l\\|^  -.*\\.\\(lnk\\|LNK\\|desktop\\|torrent\\|url\\|URL\\)$")
 
 ;;; Custom ends here.
 
+(defcustom dired-filetype-disabled-diredp-faces
+    t
+    "Turn off filetype matching from package `dired+', if installed.
+
+Without this setting, some files will be highlighted by one
+package and some by the other. Does not disable any other
+features of package dired+; only dired+ file-type highlighting is
+affected. If you're wondering why only some of the filetype faces
+you define here are taking effect, and you have dired+ installed,
+try this."
+    :type 'boolean
+    :tag "Disable dired+ filetype matching"
+    :group 'dired-filetype-face)
+
+(defvar dired-filetype-old-diredp-faces nil
+  "Backup of filetype faces from package `dired+'.")
+
+(defun dired-filetype-disable-diredp-faces-maybe ()
+  "Turn off filetype matching from package `dired+' if present."
+  (when (featurep 'dired+)
+    (if dired-filetype-disabled-diredp-faces
+      (when (bound-and-true-p diredp-font-lock-keywords-1)
+        ;; then backup and clear diredp faces
+        (setq dired-filetype-old-diredp-faces diredp-font-lock-keywords-1)
+        (setq diredp-font-lock-keywords-1 nil))
+      ;; else restore diredp faces
+      (when (and
+              dired-filetype-old-diredp-faces
+              (boundp 'diredp-font-lock-keywords-1)
+              (null diredp-font-lock-keywords-1))
+        (setq diredp-font-lock-keywords-1 dired-filetype-old-diredp-faces)))))
+
+(add-hook 'dired-filetype-setup-hook #'dired-filetype-disable-diredp-faces-maybe)
+
 (defmacro deffiletype-setup (type &optional type-for-docstring type-for-symbol type-for-face)
   "Declare a function to tell dired how to display TYPE files.
-If not nil, use TYPE-FOR-DOCSTRING instead of TYPE for documentation.
-If not nil, use TYPE-FOR-SYMBOL instead of TYPE to derive the function symbol.
-If not nil, use TYPE-FOR-FACE instead of TYPE to derive the symbol for the associated face."
+
+If not nil, use TYPE-FOR-DOCSTRING instead of TYPE for
+documentation.
+
+If not nil, use TYPE-FOR-SYMBOL instead of TYPE to derive the
+function symbol.
+
+If not nil, use TYPE-FOR-FACE instead of TYPE to derive the
+symbol for the associated face."
   (let
     (
       (funcsym
-        (intern (format "dired-filetype-set-%s-face" (downcase (or type-for-symbol type))))
-      )
-    )
+          (i__d__f "dired-filetype-set-%s-face" (or type-for-symbol type)))
+      (optsym
+          (i__d__f "dired-filetype-%s-regexp" type)))
     `(progn
        (defun ,funcsym ()
          ,(format "Set dired-filetype-face for %s files." (or type-for-docstring type))
@@ -221,16 +537,15 @@ If not nil, use TYPE-FOR-FACE instead of TYPE to derive the symbol for the assoc
            nil
            (list
              (cons
-               ,(intern (format "dired-filetype-%s-regexp" (downcase type)))
+               (if (stringp ,optsym)
+                     ,optsym
+                     (format "^  -.*\\.%s$" (regexp-opt ,optsym 'grouped)))
                '((".+"
                   (dired-move-to-filename)
                   nil
                   (0
                     (quote
-                      ,(intern
-                        (concat
-                          "dired-filetype-"
-                          (downcase (or type-for-face type))))))))))))
+                      ,(i__d__f "dired-filetype-%s" (or type-for-face type))))))))))
        (add-hook 'dired-filetype-setup-hook #',funcsym))))
 
 (deffiletype-setup "document" "rich document")
@@ -251,7 +566,9 @@ If not nil, use TYPE-FOR-FACE instead of TYPE to derive the symbol for the assoc
 
 (deffiletype-setup "omit3" "hidden" nil "omit")
 
-(deffiletype-setup "execute" "executable" "exe")
+(deffiletype-setup "program")
+
+(deffiletype-setup "execute" "executable")
 
 (deffiletype-setup "music" "audio")
 
@@ -259,16 +576,17 @@ If not nil, use TYPE-FOR-FACE instead of TYPE to derive the symbol for the assoc
 
 (deffiletype-setup "image")
 
-(deffiletype-setup "lnk" "link")
+(deffiletype-setup "link")
 
 ;;;###autoload
 (defun dired-filetype-setup()
   (run-hooks 'dired-filetype-setup-hook))
 
-;;;###autoload(add-hook 'dired-mode-hook 'dired-filetype-setup)
-(add-hook 'dired-mode-hook 'dired-filetype-setup)
-;;;###autoload(add-hook 'wdired-mode-hook 'dired-filetype-setup)
-(add-hook 'wdired-mode-hook 'dired-filetype-setup)
+;; Append to mode hooks so ours are the last applied, overriding others.
+;;;###autoload(add-hook 'dired-mode-hook 'dired-filetype-setup 'append)
+(add-hook 'dired-mode-hook 'dired-filetype-setup 'append)
+;;;###autoload(add-hook 'wdired-mode-hook 'dired-filetype-setup 'append)
+(add-hook 'wdired-mode-hook 'dired-filetype-setup 'append)
 
 (defadvice dired-toggle-read-only (after  dired-filetype-face activate)
   "set different faces for different file type."
@@ -288,4 +606,4 @@ If not nil, use TYPE-FOR-FACE instead of TYPE to derive the symbol for the assoc
 
 (provide 'dired-filetype-face)
 
-;;; `dired-filetype-face.el'ends here.
+;;; dired-filetype-face.el ends here.
