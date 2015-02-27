@@ -120,30 +120,43 @@ hexadecimal RGB number such as \"#xaaaaaa\"."
      :group 'dired-filetype-face))
 
 (defmacro deffiletype-face-regexp (type-for-symbol &rest args)
-  "Use TYPE-FOR-SYMBOL and keyword ARGS to declare a dired filetype pattern.
+  "Define a regexp option to colorize matching files in dired.
 
-Use TYPE-FOR-SYMBOL to derive the option symbol.
+TYPE-FOR-SYMBOL is a symbol to splice into the defined option
+symbol. The format string used in splicing is
+\"dired-filetype-%s-regexp\", where %s will be replaced by
+TYPE-FOR-SYMBOL.
 
-If keyword argument :type-for-docstring is not nil, use that in
-the option docstring instead of TYPE-FOR-SYMBOL.
+The remaining arguments are keyword arguments accessed as ARGS.
 
 Exactly one of the two mutually-exclusive keyword
 arguments :regexp or :extensions is required.
 
-Keyword argument :regexp must be a regexp string to match against
-each line in the dired buffer.
+Keyword argument :extensions must be a list of strings, each of
+which is a literal filetype extension without a leading dot and
+with no globbing or regexp syntax. This list will be used to
+derive a regexp to match against each complete line in the dired
+buffer.
 
-Keyword argument :extensions must be a list of strings, each of which is a
-literal filetype extension (without a leading dot). This list will be used to
-derive a regexp to match against each line in the dired buffer."
+Keyword argument :regexp must be a regexp string to match against
+each complete line in the dired buffer. Use this to match file
+names by something other than (only) the literal extension,
+and/or by other attributes available in the dired buffer such as
+modification timestamp and/or permission flags.
+
+Optional keyword argument :type-for-docstring is either a symbol
+or a string to splice into the user option docstring instead of
+TYPE-FOR-SYMBOL. The format string used in splicing is \"Regexp
+to match %s file-types in dired.\", where %s will be replaced by
+keyword argument :type-for-docstring if given, or else by
+TYPE-FOR-SYMBOL."
   (let*
-    (
-      (type-for-docstring
-        (or
-          (plist-get args :type-for-docstring)
-          type-for-symbol))
-      (regexp (plist-get args :regexp))
-      (extensions (plist-get args :extensions)))
+    ((type-for-docstring
+       (or
+         (plist-get args :type-for-docstring)
+         type-for-symbol))
+     (regexp (plist-get args :regexp))
+     (extensions (plist-get args :extensions)))
     (unless
       (or (and (null regexp) extensions) (and (null extensions) regexp))
       (error
@@ -151,12 +164,21 @@ derive a regexp to match against each line in the dired buffer."
     `(defcustom ,(i__d__f "dired-filetype-%s-regexp" type-for-symbol)
        ,(or regexp extensions)
        ,(format
-          "Regexp or list of file type extensions to match %s file-types in dired."
+          "Either a list of file extensions or a regexp to match %s file-types in dired."
           type-for-docstring)
        :type
        '(choice
-          (repeat :tag "File extensions" string)
-          (regexp :tag "Regular expression to match against whole dired line"))
+          (repeat
+            :format "%t\n%v%h"
+            :doc "List of file extensions (without a leading dot) to
+group together for dired to fontify in the same face. Literal
+file extensions only, no glob or regexp patterns."
+            :tag "File extensions to match"
+            string)
+          (regexp
+            :tag "Regular expression to match against whole dired line"
+            :format "%t\n%v%h"
+            :doc "Include two leading spaces, like this: \"^  \"."))
        :tag ,(format "Dired %s filetype pattern" type-for-docstring)
        :group 'dired-filetype-face)))
 
@@ -268,7 +290,7 @@ derive a regexp to match against each line in the dired buffer."
 
 (deffiletype-face-regexp common
   :regexp
-  "^  -.*\\(\\.keystore\\|configure\\|INSTALL.*\\|Install.*\\|CONTRIBUTING.*\\|README.*\\|readme.*\\|todo\\|Todo.*\\|TODO.*\\|Cask\\|COPYING.*\\|CHANGES\\|Changes\\|LICENSE\\|ChangeLog\\|Makefile\\|Makefile.in\\|MANIFEST.MF\\|NOTICE.txt\\|build.xml\\|Manifest\\|metadata.xml\\|install-sh\\|NEWS\\|HACKING\\|AUTHORS\\||TAGS\\|tag\\|id_rsa\\|id_rsa.pub\\|id_dsa\\|id_dsa.pub\\|authorized_keys\\|known_hosts\\)$")
+  "^  -.*\\(\\.keystore\\|configure\\|INSTALL.*\\|Install.*\\|CONTRIBUTING.*\\|README.*\\|readme.*\\|todo\\|Todo.*\\|TODO.*\\|Cask\\|COPYING.*\\|CHANGES\\|Changes\\|LICENSE\\|ChangeLog\\|Makefile\\|Makefile.in\\|MANIFEST.MF\\|NOTICE.txt\\|build.xml\\|Manifest\\|metadata.xml\\|install-sh\\|NEWS\\|HACKING\\|AUTHORS\\|TAGS\\|tag\\|id_rsa\\|id_rsa.pub\\|id_dsa\\|id_dsa.pub\\|authorized_keys\\|known_hosts\\|CREDITS.*\\)$")
 
 (deffiletype-face "XML" "Chocolate")
 
@@ -480,8 +502,8 @@ derive a regexp to match against each line in the dired buffer."
 ;;; Custom ends here.
 
 (defcustom dired-filetype-disabled-diredp-faces
-    t
-    "Turn off filetype matching from package `dired+', if installed.
+  t
+  "Turn off filetype matching from package `dired+', if installed.
 
 Without this setting, some files will be highlighted by one
 package and some by the other. Does not disable any other
@@ -525,11 +547,8 @@ function symbol.
 If not nil, use TYPE-FOR-FACE instead of TYPE to derive the
 symbol for the associated face."
   (let
-    (
-      (funcsym
-          (i__d__f "dired-filetype-set-%s-face" (or type-for-symbol type)))
-      (optsym
-          (i__d__f "dired-filetype-%s-regexp" type)))
+    ((funcsym (i__d__f "dired-filetype-set-%s-face" (or type-for-symbol type)))
+     (optsym (i__d__f "dired-filetype-%s-regexp" type)))
     `(progn
        (defun ,funcsym ()
          ,(format "Set dired-filetype-face for %s files." (or type-for-docstring type))
@@ -538,8 +557,8 @@ symbol for the associated face."
            (list
              (cons
                (if (stringp ,optsym)
-                     ,optsym
-                     (format "^  -.*\\.%s$" (regexp-opt ,optsym 'grouped)))
+                  ,optsym
+                 (format "^  -.*\\.%s$" (regexp-opt ,optsym 'grouped)))
                '((".+"
                   (dired-move-to-filename)
                   nil
