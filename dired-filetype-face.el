@@ -590,9 +590,7 @@ symbol for the associated face."
   (run-hooks 'dired-filetype-setup-hook))
 
 ;; Append to mode hooks so ours are the last applied, overriding others.
-;;;###autoload(add-hook 'dired-mode-hook 'dired-filetype-setup 'append)
 (add-hook 'dired-mode-hook 'dired-filetype-setup 'append)
-;;;###autoload(add-hook 'wdired-mode-hook 'dired-filetype-setup 'append)
 (add-hook 'wdired-mode-hook 'dired-filetype-setup 'append)
 
 (defadvice dired-toggle-read-only (after  dired-filetype-face activate)
