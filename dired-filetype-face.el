@@ -585,13 +585,6 @@ symbol for the associated face."
 
 (deffiletype-setup "link")
 
-;;;###autoload
-(defun dired-filetype-setup()
-  (run-hooks 'dired-filetype-setup-hook))
-
-;; Append to mode hooks so ours are the last applied, overriding others.
-(add-hook 'dired-mode-hook 'dired-filetype-setup 'append)
-(add-hook 'wdired-mode-hook 'dired-filetype-setup 'append)
 
 (defadvice dired-toggle-read-only (after  dired-filetype-face activate)
   "set different faces for different file type."
@@ -608,6 +601,13 @@ symbol for the associated face."
 (defadvice wdired-abort-changes (after dired-filetype-face activate)
   "set different faces for different file type."
   (dired-filetype-setup))
+
+(defun dired-filetype-setup()
+  (run-hooks 'dired-filetype-setup-hook))
+
+;; Append to mode hooks so ours are the last applied, overriding others.
+(add-hook 'dired-mode-hook 'dired-filetype-setup 'append)
+(add-hook 'wdired-mode-hook 'dired-filetype-setup 'append)
 
 (provide 'dired-filetype-face)
 
