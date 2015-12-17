@@ -222,6 +222,8 @@ file extensions only, no glob or regexp patterns."
   :type-for-docstring "rich document"
   :extensions
   '(
+    "pages"
+    "numbers"
     "CHM"
     "chm"
     "doc"
@@ -249,6 +251,7 @@ file extensions only, no glob or regexp patterns."
 (deffiletype-face-regexp plain :type-for-docstring "plain text"
   :extensions
   '(
+    "json"
     "CFG"
     "cfg"
     "cnf"
