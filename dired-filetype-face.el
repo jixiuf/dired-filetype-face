@@ -82,7 +82,7 @@
   :prefix "dired-filetype-face-"
   :group 'dired-faces)
 
-(defmacro i__d__f (fmt sym)
+(defmacro dired-filetype-fmt (fmt sym)
   "Call `format' on FMT and SYM, then `downcase', then `intern'."
   `(intern (downcase (format ,fmt ,sym))))
 
@@ -98,7 +98,7 @@ Otherwise, define a face named
 COLOR may be a string or a list of face properties. If a string,
 it is either a color name such as \"Chartreuse\" or a color
 hexadecimal RGB number such as \"#xaaaaaa\"."
-  `(defface ,(i__d__f "dired-filetype-%s" (or type-for-symbol type))
+  `(defface ,(dired-filetype-fmt "dired-filetype-%s" (or type-for-symbol type))
      ,(if (stringp color)
           `(quote ((t (:foreground ,color))))
         color)
@@ -148,7 +148,7 @@ TYPE-FOR-SYMBOL."
         (or (and (null regexp) extensions) (and (null extensions) regexp))
       (error
        "Exactly one of keyword arguments :regexp and :extensions is required"))
-    `(defcustom ,(i__d__f "dired-filetype-%s-regexp" type-for-symbol)
+    `(defcustom ,(dired-filetype-fmt "dired-filetype-%s-regexp" type-for-symbol)
        ,(or regexp extensions)
        ,(format
          "Either a list of file extensions or a regexp to match %s file-types in dired."
@@ -535,8 +535,8 @@ function symbol.
 If not nil, use TYPE-FOR-FACE instead of TYPE to derive the
 symbol for the associated face."
   (let
-      ((funcsym (i__d__f "dired-filetype-set-%s-face" (or type-for-symbol type)))
-       (optsym (i__d__f "dired-filetype-%s-regexp" type)))
+      ((funcsym (dired-filetype-fmt "dired-filetype-set-%s-face" (or type-for-symbol type)))
+       (optsym (dired-filetype-fmt "dired-filetype-%s-regexp" type)))
     `(progn
        (defun ,funcsym ()
          ,(format "Set dired-filetype-face for %s files." (or type-for-docstring type))
@@ -552,7 +552,7 @@ symbol for the associated face."
                nil
                (0
                 (quote
-                 ,(i__d__f "dired-filetype-%s" (or type-for-face type))))))))))
+                 ,(dired-filetype-fmt "dired-filetype-%s" (or type-for-face type))))))))))
        (add-hook 'dired-filetype-setup-hook #',funcsym))))
 
 (deffiletype-setup "document" "rich document")
@@ -585,15 +585,6 @@ symbol for the associated face."
 
 (deffiletype-setup "link")
 
-;;;###autoload
-(defun dired-filetype-setup()
-  (run-hooks 'dired-filetype-setup-hook))
-
-;; Append to mode hooks so ours are the last applied, overriding others.
-;;;###autoload(add-hook 'dired-mode-hook 'dired-filetype-setup 'append)
-(add-hook 'dired-mode-hook 'dired-filetype-setup 'append)
-;;;###autoload(add-hook 'wdired-mode-hook 'dired-filetype-setup 'append)
-(add-hook 'wdired-mode-hook 'dired-filetype-setup 'append)
 
 (defadvice dired-toggle-read-only (after  dired-filetype-face activate)
   "set different faces for different file type."
@@ -610,6 +601,13 @@ symbol for the associated face."
 (defadvice wdired-abort-changes (after dired-filetype-face activate)
   "set different faces for different file type."
   (dired-filetype-setup))
+
+(defun dired-filetype-setup()
+  (run-hooks 'dired-filetype-setup-hook))
+
+;; Append to mode hooks so ours are the last applied, overriding others.
+(add-hook 'dired-mode-hook 'dired-filetype-setup 'append)
+(add-hook 'wdired-mode-hook 'dired-filetype-setup 'append)
 
 (provide 'dired-filetype-face)
 
