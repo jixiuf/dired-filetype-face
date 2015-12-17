@@ -222,6 +222,7 @@ file extensions only, no glob or regexp patterns."
   :type-for-docstring "rich document"
   :extensions
   '(
+    "csv"
     "pages"
     "numbers"
     "CHM"
@@ -251,6 +252,9 @@ file extensions only, no glob or regexp patterns."
 (deffiletype-face-regexp plain :type-for-docstring "plain text"
   :extensions
   '(
+    "md"
+    "yaml"
+    "yml"
     "json"
     "CFG"
     "cfg"
@@ -280,13 +284,14 @@ file extensions only, no glob or regexp patterns."
 
 (deffiletype-face-regexp common
   :regexp
-  "^  -.*\\(\\.keystore\\|configure\\|INSTALL.*\\|Install.*\\|CONTRIBUTING.*\\|README.*\\|readme.*\\|todo\\|Todo.*\\|TODO.*\\|Cask\\|COPYING.*\\|CHANGES\\|Changes\\|LICENSE\\|ChangeLog\\|Makefile\\|Makefile.in\\|MANIFEST.MF\\|NOTICE.txt\\|build.xml\\|Manifest\\|metadata.xml\\|install-sh\\|NEWS\\|HACKING\\|AUTHORS\\|TAGS\\|tag\\|id_rsa\\|id_rsa.pub\\|id_dsa\\|id_dsa.pub\\|authorized_keys\\|known_hosts\\|CREDITS.*\\)$")
+  "^  -.*\\(\\.keystore\\|configure\\|INSTALL.*\\|Install.*\\|CONTRIBUTING.*\\|README.*\\|readme.*\\|todo\\|Todo.*\\|TODO.*\\|Cask\\|COPYING.*\\|CHANGES\\|CHANGELOG\\|Changes\\|LICENSE\\|ChangeLog\\|Makefile\\mk|\\|Makefile.in\\|MANIFEST.MF\\|NOTICE.txt\\|build.xml\\|Manifest\\|metadata.xml\\|install-sh\\|NEWS\\|HACKING\\|AUTHORS\\|TAGS\\|tag\\|GPATH\\|id_rsa\\|id_rsa.pub\\|id_dsa\\|id_dsa.pub\\|authorized_keys\\|known_hosts\\|CREDITS.*\\)$")
 
 (deffiletype-face "XML" "Chocolate")
 
 (deffiletype-face-regexp XML
   :extensions
   '(
+    "vbs"
     "asp"
     "aspx"
     "dtd"
@@ -389,7 +394,7 @@ file extensions only, no glob or regexp patterns."
 
 (deffiletype-face-regexp program
   :regexp
-  "^  -\\([r-][w-]-\\)\\{3\\}.*\\.\\(exe\\|EXE\\|bat\\|BAT\\|msi\\|MSI\\|\\(?:t?c\\|z\\)?sh\\|run\\|reg\\|REG\\|com\\|COM\\|vbx\\|VBX\\|bin\\|xpi\\|bundle\\|awk\\)$")
+  "^  -\\([r-][w-]-\\)\\{3\\}.*\\.\\(exe\\|EXE\\|cmd\\|bat\\|BAT\\|msi\\|MSI\\|\\(?:t?c\\|z\\)?sh\\|run\\|reg\\|REG\\|com\\|COM\\|vbx\\|VBX\\|bin\\|xpi\\|bundle\\|awk\\)$")
 
 (deffiletype-face "executable" "green" "execute")
 
