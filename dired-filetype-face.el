@@ -561,7 +561,7 @@ symbol for the associated face."
                (0
                 (quote
                  ,(dired-filetype-fmt "dired-filetype-%s" (or type-for-face type))))))))))
-       (add-hook 'dired-filetype-setup-hook #',funcsym))))
+       (add-hook 'dired-filetype-setup-hook #',funcsym t))))
 
 (deffiletype-setup "document" "rich document")
 
