@@ -54,6 +54,8 @@ file:
  the dired buffer than (only) file extensions, such as the permission bits,
  the size and the modification times.
 
+Pull Request for adding default extensions or changing current setting are welcome
+------------------------
 
 Copyright & License
 ------------------------
