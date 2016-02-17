@@ -255,7 +255,6 @@ file extensions only, no glob or regexp patterns."
     "md"
     "yaml"
     "yml"
-    "json"
     "CFG"
     "cfg"
     "cnf"
@@ -299,7 +298,6 @@ file extensions only, no glob or regexp patterns."
     "htm"
     "HTML"
     "html"
-    "js"
     "jsp"
     "jspx"
     "mht"
@@ -593,6 +591,10 @@ symbol for the associated face."
 
 (deffiletype-setup "link")
 
+
+(deffiletype-face "js" "goldenrod")
+(deffiletype-face-regexp js :extensions '("js" "json"))
+(deffiletype-setup "js")
 
 (defadvice dired-toggle-read-only (after  dired-filetype-face activate)
   "set different faces for different file type."
