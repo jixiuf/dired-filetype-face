@@ -1,3 +1,4 @@
+;;; -*- lexical-binding: t -*-
 ;;; dired-filetype-face.el --- Set different faces for different filetypes in dired
 
 ;; Author: 纪秀峰 <jixiuf at gmail dot com>
