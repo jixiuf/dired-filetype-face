@@ -598,22 +598,10 @@ symbol for the associated face."
 (deffiletype-face "js" "goldenrod")
 (deffiletype-face-regexp js :extensions '("js" "json"))
 (deffiletype-setup "js")
-
-(defadvice dired-toggle-read-only (after  dired-filetype-face activate)
-  "set different faces for different file type."
-  (dired-filetype-setup))
-
-(defadvice wdired-exit (after dired-filetype-face activate)
-  "set different faces for different file type."
-  (dired-filetype-setup))
-
-(defadvice wdired-finish-edit (after dired-filetype-face activate)
-  "set different faces for different file type."
-  (dired-filetype-setup))
-
-(defadvice wdired-abort-changes (after dired-filetype-face activate)
-  "set different faces for different file type."
-  (dired-filetype-setup))
+(advice-add 'dired-toggle-read-only :after #'dired-filetype-setup)
+(advice-add 'wdired-exit :after #'dired-filetype-setup)
+(advice-add 'wdired-finish-edit :after #'dired-filetype-setup)
+(advice-add 'wdired-abort-changes :after #'dired-filetype-setup)
 
 (defun dired-filetype-setup()
   (run-hooks 'dired-filetype-setup-hook))
