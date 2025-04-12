@@ -3,7 +3,7 @@
 
 ;; Author: 纪秀峰 <jixiuf at gmail dot com>
 ;; Copyright (C) 2011~2015,纪秀峰 , all rights reserved.
-;; Version: 1.0
+;; Version: 1.1
 ;; URL:   https://github.com/jixiuf/dired-filetype-face
 ;; Keywords: dired filetype face
 ;;
